@@ -121,6 +121,31 @@
 							</execution>
 						</executions>
 					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.5</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.6.3</version>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>ossrh</serverId>
+							<nexusUrl>http://oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>false</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
 				</plugins>
 			</build>
 		</profile>
@@ -188,16 +213,14 @@
 	</repositories>
 
 	<distributionManagement>
-		<repository>
-			<id>deployment</id>
-			<name>Internal Releases</name>
-			<url>https://inforep01.ogmaster.local:8443/nexus/content/repositories/releases/</url>
-		</repository>
 		<snapshotRepository>
-			<id>deployment</id>
-			<name>Internal Releases</name>
-			<url>https://inforep01.ogmaster.local:8443/nexus/content/repositories/snapshots/</url>
+			<id>ossrh</id>
+			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
 	</distributionManagement>
 
 </project>
