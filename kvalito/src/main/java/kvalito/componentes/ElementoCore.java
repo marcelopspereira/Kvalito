@@ -57,7 +57,6 @@ public abstract class ElementoCore {
 	public void clicar() throws Exception {
 		Log.registrarInformacao(String.format("O elemento [%s] será clicado.", elemento.getTagName()));
 
-		Navegador.executarScroolY(250);
 		elemento.click();
 
 		Log.registrarInformacao(String.format(" - Url atual: [%s]", Navegador.getUrlAtual()));
