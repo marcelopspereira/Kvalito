@@ -135,17 +135,6 @@
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>1.6.3</version>
-						<extensions>true</extensions>
-						<configuration>
-							<serverId>ossrh</serverId>
-							<nexusUrl>http://oss.sonatype.org/</nexusUrl>
-							<autoReleaseAfterClose>false</autoReleaseAfterClose>
-						</configuration>
-					</plugin>
 				</plugins>
 			</build>
 		</profile>
@@ -210,17 +199,28 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+		<repository>
+			<id>infoglobo</id>
+			<name>Repositorio corporativo</name>
+			<layout>default</layout>
+			<url>https://inforep01.ogmaster.local:8443/nexus/content/groups/public/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
 		<repository>
-			<id>ossrh</id>
-			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<id>deployment</id>
+			<name>Internal Releases</name>
+			<url>https://inforep01.ogmaster.local:8443/nexus/content/repositories/releases/</url>
 		</repository>
+		<snapshotRepository>
+			<id>deployment</id>
+			<name>Internal Releases</name>
+			<url>https://inforep01.ogmaster.local:8443/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
 	</distributionManagement>
 
 </project>
