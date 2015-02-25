@@ -11,19 +11,6 @@ public class Configuracoes {
 	private static Properties propriedadesPrincipais;
 	private static HashMap<String, String> mapaDeConfiguracoes;
 
-	public static String getUrlConfigurada(String nomePageObject)
-			throws Exception {
-		carregarPropriedades();
-		return getDominio() + getConfiguracaoPagina(nomePageObject);
-	}
-
-	public static String getDominio() throws Exception {
-		carregarPropriedades();
-		String nomePropriedadeDominioUtilizado = getConfiguracaoPagina("dominio-utlizado");
-		String dominio = getConfiguracaoPagina(nomePropriedadeDominioUtilizado);
-		return dominio;
-	}
-
 	private static void carregarPropriedades() throws Exception {
 		if (propriedadesPrincipais == null) {
 			try {
@@ -35,9 +22,7 @@ public class Configuracoes {
 				propriedadesPrincipais.load(new FileInputStream(file));
 
 				String arquivoConfiguracoesPaginaUtilizado = obterNomeArquivoConfiguracoesPagina();
-				Log.registrarInformacao(String.format(
-						"Abrindo o arquivo de configurações de página [%s]",
-						arquivoConfiguracoesPaginaUtilizado));
+				Log.registrarInformacao(String.format("Abrindo o arquivo de configurações de página [%s]", arquivoConfiguracoesPaginaUtilizado));
 
 				propriedades = new Properties();
 				file = new File(arquivoConfiguracoesPaginaUtilizado);
@@ -50,67 +35,80 @@ public class Configuracoes {
 		}
 	}
 
-	private static String obterNomeArquivoConfiguracoesPagina()
-			throws Exception {
-		String nome = System.getProperty("configuracoes-pagina-utlizada");
-		if (nome == null || nome.isEmpty()) {
-			nome = getConfiguracao("configuracoes-pagina-utlizada",
-					propriedadesPrincipais);
-		}
-		if (nome == null || nome.isEmpty()) {
-			nome = "ConfiguracoesPagina.properties";
-		}
-		return "src/test/resources/" + nome;
+	/**
+	 * Limpar configurações de chaves. <br>
+	 */
+	public static void descarregar() {
+		propriedades = null;
+		propriedadesPrincipais = null;
 	}
 
-	public static String getConfiguracaoPagina(String chaveconfiguracao)
-			throws Exception {
-		carregarPropriedades();
-		return getConfiguracao(chaveconfiguracao, propriedades);
-	}
-
-	public static String getConfiguracaoPrincipal(String chaveconfiguracao)
-			throws Exception {
-		carregarPropriedades();	
-		return getConfiguracao(chaveconfiguracao, propriedadesPrincipais);
-	}
-
-	private static String getConfiguracao(String chaveconfiguracao,
-			Properties aquivoPropriedades) throws Exception {
+	private static String getConfiguracao(String chaveconfiguracao, Properties aquivoPropriedades) throws Exception {
 		try {
-			Log.registrarInformacao(String.format(
-					"Obtendo a configuração da chave [%s]", chaveconfiguracao));
-			String valorChave = aquivoPropriedades
-					.getProperty(chaveconfiguracao);
+			Log.registrarInformacao(String.format("Obtendo a configuração da chave [%s]", chaveconfiguracao));
+			String valorChave = aquivoPropriedades.getProperty(chaveconfiguracao);
 			if (valorChave == null) {
-				throw new Exception(
-						String.format(
-								"Não localizou a chave [%s] no arquivo de configuração",
-								chaveconfiguracao));
+				throw new Exception(String.format("Não localizou a chave [%s] no arquivo de configuração", chaveconfiguracao));
 			}
 			return valorChave;
 		} catch (Exception ex) {
-			Log.registrarInformacao(String.format(
-					"Erro ao tentar obter a configuração [%s]",
-					chaveconfiguracao));
+			Log.registrarInformacao(String.format("Erro ao tentar obter a configuração [%s]", chaveconfiguracao));
 			Log.registrarErro(ex);
 			throw ex;
 		}
 	}
-	
+
+	/**
+	 * Obtém o conteúdo da chave configurada no arquivo de propriedades da
+	 * página.<br>
+	 * 
+	 * @param chaveconfiguracao
+	 *            Nome da chave.
+	 * @return Conteúdo da chave configurada.
+	 * @throws Exception
+	 */
+	public static String getConfiguracaoPagina(String chaveconfiguracao) throws Exception {
+		carregarPropriedades();
+		return getConfiguracao(chaveconfiguracao, propriedades);
+	}
+
+	/**
+	 * Obtém o conteúdo da chave configurada no arquivo de propriedades
+	 * principal.<br>
+	 * 
+	 * @param chaveconfiguracao
+	 *            Nome da chave.
+	 * @return Conteúdo da chave configurada.
+	 * @throws Exception
+	 */
+	public static String getConfiguracaoPrincipal(String chaveconfiguracao) throws Exception {
+		carregarPropriedades();
+		return getConfiguracao(chaveconfiguracao, propriedadesPrincipais);
+	}
+
+	public static String getDominio() throws Exception {
+		carregarPropriedades();
+		String nomePropriedadeDominioUtilizado = getConfiguracaoPagina("dominio-utlizado");
+		String dominio = getConfiguracaoPagina(nomePropriedadeDominioUtilizado);
+		return dominio;
+	}
+
+	public static String getUrlConfigurada(String nomePageObject) throws Exception {
+		carregarPropriedades();
+		return getDominio() + getConfiguracaoPagina(nomePageObject);
+	}
+
+	/**
+	 * Injeta uma chave de configuração em tempo de execução do teste.<br>
+	 * 
+	 * @param chave
+	 *            Nome da chave.
+	 * @param valor
+	 *            Valor da chave.
+	 */
 	public static void injetarConfiguracao(String chave, String valor) {
 		instanciarMapaDeConfiguracoes();
 		mapaDeConfiguracoes.put(chave, valor);
-	}
-
-	public static String obterConfiguracaoDaChave(String chave) throws Exception {
-		instanciarMapaDeConfiguracoes();
-		
-		if (mapaDeConfiguracoes.get(chave) != null) {
-			return mapaDeConfiguracoes.get(chave);
-		}
-		
-		return getConfiguracaoPagina(chave);
 	}
 
 	private static void instanciarMapaDeConfiguracoes() {
@@ -119,8 +117,30 @@ public class Configuracoes {
 		}
 	}
 
-	public static void descarregar() {
-		propriedades = null;
-		propriedadesPrincipais = null;
+	/**
+	 * Obtém o valor de uma chave injetada. <br>
+	 * 
+	 * @param chave
+	 *            Nome da chave.
+	 */
+	public static String obterConfiguracaoDaChave(String chave) throws Exception {
+		instanciarMapaDeConfiguracoes();
+
+		if (mapaDeConfiguracoes.get(chave) != null) {
+			return mapaDeConfiguracoes.get(chave);
+		}
+
+		return getConfiguracaoPagina(chave);
+	}
+
+	private static String obterNomeArquivoConfiguracoesPagina() throws Exception {
+		String nome = System.getProperty("configuracoes-pagina-utlizada");
+		if (nome == null || nome.isEmpty()) {
+			nome = getConfiguracao("configuracoes-pagina-utlizada", propriedadesPrincipais);
+		}
+		if (nome == null || nome.isEmpty()) {
+			nome = "ConfiguracoesPagina.properties";
+		}
+		return "src/test/resources/" + nome;
 	}
 }

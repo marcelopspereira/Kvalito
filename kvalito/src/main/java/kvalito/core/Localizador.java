@@ -6,6 +6,16 @@ public class Localizador {
 	
 	/**
 	 * Construtor para mapeamento do localizador de um elemento. <br>
+	 * O elemento será localizado pelo valor da chave de configuração (localizar-por-default) do arquivo ConfiguracoesTeste.properties
+	 * @param expressaoElementoLocalizar A expressão utilizada para localizar o elemento. (Ex.: txtNome (id ou name), div (tagname), /html/body/ (xpath))
+	 */
+	
+	public Localizador(String expressaoElementoLocalizar) {
+		this(null, expressaoElementoLocalizar);
+	}
+	
+	/**
+	 * Construtor para mapeamento do localizador de um elemento. <br>
 	 * É possível utilizar as opções abaixo:<br>
 	 * 		id - nome -	name - xpath - tagname - cssclass - cssselector
 	 * @param localizarPor Localizador do elemento. Pode ser um dos valores (id, nome, name, xpath, tagname, cssclass, cssselector)<br>
@@ -31,27 +41,17 @@ public class Localizador {
 			Log.registrarErro(ex);
 		}
 	}
-	
-	/**
-	 * Construtor para mapeamento do localizador de um elemento. <br>
-	 * O elemento será localizado pelo valor da chave de configuração (localizar-por-default) do arquivo ConfiguracoesTeste.properties
-	 * @param expressaoElementoLocalizar A expressão utilizada para localizar o elemento. (Ex.: txtNome (id ou name), div (tagname), /html/body/ (xpath))
-	 */
-	
-	public Localizador(String expressaoElementoLocalizar) {
-		this(null, expressaoElementoLocalizar);
-	}
 
-	@Override
-	public String toString() {
-		return "Localizar por: " + this.tipoLocalizador.toString() + " = " + this.elementoLocalizar;
+	public String getExpressaoElemento() {
+		return this.elementoLocalizar;
 	}
 
 	public TipoLocalizador getLocalizarPor() {
 		return this.tipoLocalizador;
 	}
 
-	public String getExpressaoElemento() {
-		return this.elementoLocalizar;
+	@Override
+	public String toString() {
+		return "Localizar por: " + this.tipoLocalizador.toString() + " = " + this.elementoLocalizar;
 	}
 }

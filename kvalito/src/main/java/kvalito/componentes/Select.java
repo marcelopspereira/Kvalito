@@ -23,50 +23,9 @@ public class Select extends ElementoCore {
 		super.carregarElemento(this.localizador);
 	}
 
-	/**
-	 * Selecionar uma opção de um Select por Valor. <br>
-	 * 
-	 * @param valorParaSelecionar
-	 *            Valor da opção que deverá ser selecionada
-	 * @throws Exception
-	 */
-	public void selecionarPorValor(String valorParaSelecionar) throws Exception {
-		Log.registrarInformacao("Escolhendo opção do SelectBox por VALOR [" + valorParaSelecionar + "] - SelectBox [" + this.toString() + "]");
-		this.selecionar(3, valorParaSelecionar);
-		Log.registrarInformacao("Valor selecionado");
+	private org.openqa.selenium.support.ui.Select coverterWebElementParaSelect() {
+		return new org.openqa.selenium.support.ui.Select(elemento);
 	}
-
-	/**
-	 * Selecionar uma opção de um Select por Índice. <br>
-	 * 
-	 * @param indiceParaSelecionar
-	 *            Índice da opção que deverá ser selecionada
-	 * @throws Exception
-	 */
-	public void selecionarPorIndice(int indiceParaSelecionar) throws Exception {
-		Log.registrarInformacao("Escolhendo opção do SelectBox por ÍNDICE [" + indiceParaSelecionar + "] - SelectBox [" + this.toString() + "]");
-		this.selecionar(1, Integer.toString(indiceParaSelecionar));
-		Log.registrarInformacao("Valor selecionado");
-	}
-
-	/**
-	 * Selecionar uma opção de um Select por Texto. <br>
-	 * 
-	 * @param textoParaSelecionar
-	 *            Texto da opção que deverá ser selecionada
-	 * @throws Exception
-	 */
-	public void selecionarPorTexto(String textoParaSelecionar) throws Exception {
-		String mensagem = String.format("Escolhendo opção do SelectBox por TEXTO [%s] - SelectBox [%s]", textoParaSelecionar, this.toString()); 
-		Log.registrarInformacao(mensagem);
-		this.selecionar(2, textoParaSelecionar);
-		Log.registrarInformacao("Valor selecionado");
-	}
-
-	@Override
-	public String toString() {
-		return String.format("Localizado por %s = %s", this.localizador.getLocalizarPor(), this.localizador.getExpressaoElemento());
-	};
 
 	@Override
 	protected String getNomeTag() {
@@ -107,8 +66,8 @@ public class Select extends ElementoCore {
 				}
 				break;
 			} catch (StaleElementReferenceException e) {
-				String mensagem = String.format("Lançou o erro StaleElement ao tentar selecionar uma opção [%s - %s]. Irá tentar novamente [Tentativa: %s]", por, oQueSelecionador,
-						quantidadeTentativas);
+				String mensagem = String.format("Lançou o erro StaleElement ao tentar selecionar uma opção [%s - %s]. Irá tentar novamente [Tentativa: %s]",
+						por, oQueSelecionador, quantidadeTentativas);
 				Log.registrarInformacao(mensagem);
 				super.carregarElemento(this.localizador);
 			} catch (Exception e) {
@@ -117,9 +76,50 @@ public class Select extends ElementoCore {
 				throw e;
 			}
 		}
+	};
+
+	/**
+	 * Selecionar uma opção de um Select por Índice. <br>
+	 * 
+	 * @param indiceParaSelecionar
+	 *            Índice da opção que deverá ser selecionada
+	 * @throws Exception
+	 */
+	public void selecionarPorIndice(int indiceParaSelecionar) throws Exception {
+		Log.registrarInformacao("Escolhendo opção do SelectBox por ÍNDICE [" + indiceParaSelecionar + "] - SelectBox [" + this.toString() + "]");
+		this.selecionar(1, Integer.toString(indiceParaSelecionar));
+		Log.registrarInformacao("Valor selecionado");
 	}
 
-	private org.openqa.selenium.support.ui.Select coverterWebElementParaSelect() {
-		return new org.openqa.selenium.support.ui.Select(elemento);
+	/**
+	 * Selecionar uma opção de um Select por Texto. <br>
+	 * 
+	 * @param textoParaSelecionar
+	 *            Texto da opção que deverá ser selecionada
+	 * @throws Exception
+	 */
+	public void selecionarPorTexto(String textoParaSelecionar) throws Exception {
+		String mensagem = String.format("Escolhendo opção do SelectBox por TEXTO [%s] - SelectBox [%s]", textoParaSelecionar, this.toString());
+		Log.registrarInformacao(mensagem);
+		this.selecionar(2, textoParaSelecionar);
+		Log.registrarInformacao("Valor selecionado");
+	}
+
+	/**
+	 * Selecionar uma opção de um Select por Valor. <br>
+	 * 
+	 * @param valorParaSelecionar
+	 *            Valor da opção que deverá ser selecionada
+	 * @throws Exception
+	 */
+	public void selecionarPorValor(String valorParaSelecionar) throws Exception {
+		Log.registrarInformacao("Escolhendo opção do SelectBox por VALOR [" + valorParaSelecionar + "] - SelectBox [" + this.toString() + "]");
+		this.selecionar(3, valorParaSelecionar);
+		Log.registrarInformacao("Valor selecionado");
+	}
+
+	@Override
+	public String toString() {
+		return String.format("Localizado por %s = %s", this.localizador.getLocalizarPor(), this.localizador.getExpressaoElemento());
 	}
 }

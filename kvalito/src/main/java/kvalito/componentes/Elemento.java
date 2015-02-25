@@ -20,13 +20,13 @@ public class Elemento extends ElementoCore {
 		super.carregarElemento(localizadorDoElemento);
 	}
 
-	public Elemento(String localizarPor, String expressaoLocalizacao) throws Exception {
-		Localizador localizador = new Localizador(localizarPor, expressaoLocalizacao);
+	public Elemento(String expressaoLocalizacao) throws Exception {
+		Localizador localizador = new Localizador(expressaoLocalizacao);
 		super.carregarElemento(localizador);
 	}
 
-	public Elemento(String expressaoLocalizacao) throws Exception {
-		Localizador localizador = new Localizador(expressaoLocalizacao);
+	public Elemento(String localizarPor, String expressaoLocalizacao) throws Exception {
+		Localizador localizador = new Localizador(localizarPor, expressaoLocalizacao);
 		super.carregarElemento(localizador);
 	}
 
@@ -34,75 +34,15 @@ public class Elemento extends ElementoCore {
 		this.elemento = webElement;
 	}
 
-	public WebElement webElement() {
-		return elemento;
-	}
-
+	/**
+	 * Possibilita a execução de ações do teclado.
+	 * @return
+	 */
 	public AcoesTeclado acoesTeclado() {
 		if (this.teclado == null) {
 			this.teclado = new AcoesTeclado(this.elemento);
 		}
 		return this.teclado;
-	}
-
-	/**
-	 * Verifica se o elemento está visível. <br>
-	 * 
-	 */
-
-	public boolean estaVisivel() throws Exception {
-		return elemento.isDisplayed();
-	}
-
-	/**
-	 * Verifica se o elemento está habilitado. <br>
-	 * 
-	 */
-	public boolean estaHabilitado() throws Exception {
-		return elemento.isEnabled();
-	}
-
-	/**
-	 * Verifica se o elemento(input/checkbox/radio button) está selecionado. <br>
-	 * 
-	 */
-	public boolean estaSelecionado() {
-		return elemento.isSelected();
-	}
-
-	/**
-	 * Seleciona o elemento(input/checkbox/radio button). <br>
-	 * 
-	 */
-	public void selecionar() {
-		if (!this.estaSelecionado()) {
-			elemento.click();
-		}
-	}
-
-	/**
-	 * Retorna o valor de um atributo do elemento HTML <br>
-	 * 
-	 * @param nomeDoAtributo
-	 */
-	public String valorAtributo(String nomeDoAtributo) {
-		return elemento.getAttribute(nomeDoAtributo);
-	}
-
-	/**
-	 * Retorna o valor (atributo VALUE) de um elemento HTML <br>
-	 * 
-	 */
-	public String valor() {
-		return valorAtributo("value");
-	}
-
-	/**
-	 * Retorna o texto de um elemento HTML <br>
-	 * 
-	 */
-	public String getConteudo() {
-		return elemento.getText();
 	}
 
 	/**
@@ -123,8 +63,62 @@ public class Elemento extends ElementoCore {
 		return elemento.getText().contains(valorVerificarExistencia);
 	}
 
+	/**
+	 * Verifica se o elemento está habilitado. <br>
+	 * 
+	 */
+	public boolean estaHabilitado() throws Exception {
+		return elemento.isEnabled();
+	}
+
 	public boolean estaPreenchido() {
 		return possuiConteudo();
+	}
+
+	/**
+	 * Verifica se o elemento(input/checkbox/radio button) está selecionado. <br>
+	 * 
+	 */
+	public boolean estaSelecionado() {
+		return elemento.isSelected();
+	}
+
+	/**
+	 * Verifica se o elemento está visível. <br>
+	 * 
+	 */
+
+	public boolean estaVisivel() throws Exception {
+		return elemento.isDisplayed();
+	}
+
+	/**
+	 * Retorna o texto de um elemento HTML <br>
+	 * 
+	 */
+	public String getConteudo() {
+		return elemento.getText();
+	}
+
+	@Override
+	protected String getNomeTag() {
+		return "generico";
+	}
+
+	/**
+	 * Limpa o conteúdo de um input. <br>
+	 * 
+	 */
+	public void limpar() {
+		this.elemento.clear();
+	}
+
+	/**
+	 * Retorna a posição (x, y) do elemento na página. <br>
+	 * 
+	 */
+	public Point posicao() {
+		return elemento.getLocation();
 	}
 
 	/**
@@ -135,20 +129,6 @@ public class Elemento extends ElementoCore {
 	 */
 	public void preencherCom(String texto) {
 		this.elemento.sendKeys(texto);
-	}
-
-	/**
-	 * Preenche o input com um texto aleatório com a quantidade de palavras
-	 * passadas por parâmetro. <br>
-	 * 
-	 * @param quantidadePalavras
-	 * 
-	 */
-	public String preencherComTextoAleatorio(int quantidadePalavras) {
-		LoremIpsum geradorLoremIpsum = new LoremIpsum();
-		String texto = geradorLoremIpsum.getWords(quantidadePalavras);
-		this.preencherCom(texto);
-		return texto;
 	}
 
 	/**
@@ -188,24 +168,44 @@ public class Elemento extends ElementoCore {
 	}
 
 	/**
-	 * Limpa o conteúdo de um input. <br>
+	 * Preenche o input com um texto aleatório com a quantidade de palavras
+	 * passadas por parâmetro. <br>
+	 * 
+	 * @param quantidadePalavras
 	 * 
 	 */
-	public void limpar() {
-		this.elemento.clear();
-	}
-
-	@Override
-	protected String getNomeTag() {
-		return "generico";
+	public String preencherComTextoAleatorio(int quantidadePalavras) {
+		LoremIpsum geradorLoremIpsum = new LoremIpsum();
+		String texto = geradorLoremIpsum.getWords(quantidadePalavras);
+		this.preencherCom(texto);
+		return texto;
 	}
 
 	/**
-	 * Retorna a posição (x, y) do elemento na página. <br>
+	 * Seleciona o elemento(input/checkbox/radio button). <br>
 	 * 
 	 */
-	public Point posicao() {
-		return elemento.getLocation();
+	public void selecionar() {
+		if (!this.estaSelecionado()) {
+			elemento.click();
+		}
+	}
+
+	/**
+	 * Retorna o valor (atributo VALUE) de um elemento HTML <br>
+	 * 
+	 */
+	public String valor() {
+		return valorAtributo("value");
+	}
+
+	/**
+	 * Retorna o valor de um atributo do elemento HTML <br>
+	 * 
+	 * @param nomeDoAtributo
+	 */
+	public String valorAtributo(String nomeDoAtributo) {
+		return elemento.getAttribute(nomeDoAtributo);
 	}
 
 	/**
@@ -213,6 +213,10 @@ public class Elemento extends ElementoCore {
 	 */
 	public String valorAtributoCss(String nomeDoAtributo) {
 		return elemento.getCssValue(nomeDoAtributo);
+	}
+
+	public WebElement webElement() {
+		return elemento;
 	}
 
 }

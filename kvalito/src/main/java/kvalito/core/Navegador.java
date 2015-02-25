@@ -42,15 +42,117 @@ public class Navegador {
 		Log.registrarInformacao(" - Tempo de carregamento: " + tempoFinal + "ms");
 	}
 
+	public static void aguardarAteQueAtributoEstejaPreenchido(final WebElement elemento, final String atributo) throws Exception {
+		String tempoQueIraAguardar = Configuracoes.getConfiguracaoPrincipal("tempo-esperava-elemento-visivel");
+		Log.registrarInformacao(String.format("Aguandando que o atributo [%s] do elemento [%s] esteja preenchido [%s segundos]", atributo,
+				elemento.getTagName(), tempoQueIraAguardar));
+		WebDriverWait wait = new WebDriverWait(driver, Long.parseLong(tempoQueIraAguardar));
+
+		wait.until(new ExpectedCondition<Boolean>() {
+			public Boolean apply(WebDriver driver) {
+				String valor = elemento.getAttribute(atributo);
+				Log.registrarDebug(String.format("Valor do atributo [%s] é [%s]", atributo, valor));
+				return valor != null && valor != "";
+			}
+		});
+	}
+
+	public static void aguardarAteQueEstejaVisivel(final WebElement elemento) throws Exception {
+		String tempoQueIraAguardar = Configuracoes.getConfiguracaoPrincipal("tempo-esperava-elemento-visivel");
+		Log.registrarInformacao(String.format("Aguandando que o elemento esteja visível [%s segundos]", tempoQueIraAguardar));
+		WebDriverWait wait = new WebDriverWait(driver, Long.parseLong(tempoQueIraAguardar));
+
+		wait.until(ExpectedConditions.visibilityOf(elemento));
+
+		/*
+		 * wait.until(new ExpectedCondition<Boolean>() { public Boolean
+		 * apply(WebDriver driver) { Log.registrarDebug(String.format(
+		 * "O elemento [%s] ainda está visível [%s]", elemento.getTagName(),
+		 * elemento.isDisplayed())); return elemento.isDisplayed(); } });
+		 */
+	}
+
+	public static void arrastarElementoPara(WebElement elemento, WebElement destino) {
+		Actions acoes = new Actions(driver);
+		acoes.dragAndDrop(elemento, destino).build().perform();
+	}
+	
+	public static void atualizarPagina() throws Exception {
+		Log.registrarInformacao("Atualizando a Página");
+		getDriver().navigate().refresh();
+	}
+
+	public static void capturarPrintTela(String nomeArquivo) throws Exception {
+		try {
+			String nomeCompletoArquivo = "target\\" + nomeArquivo + ".jpg";
+			Log.registrarInformacao(String.format("Granvando print de tela [%s]", nomeCompletoArquivo));
+			File file = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(file, new File(nomeCompletoArquivo));
+		} catch (Exception ex) {
+			Log.registrarAlerta("Erro ao capturar um print da tela");
+			Log.registrarErro(ex);
+			throw ex;
+		}
+	}
+
+	public static void clicarAceitarNoAlerta() {
+		driver.switchTo().alert().accept();
+	}
+
+	public static void clicarDuasVezes(WebElement elemento) {
+		Actions acoes = new Actions(driver);
+		acoes.doubleClick(elemento);
+		acoes.perform();
+	}
+
+	public static String codigoFonteDaPagina() throws Exception {
+		return getDriver().getPageSource();
+	}
+
+	public static void esperarPor(long tempoEsperarRecarregamentoElemento) {
+		try {
+			Thread.sleep(tempoEsperarRecarregamentoElemento);
+		} catch (InterruptedException e) {
+			String mensagem = String.format("Houve um erro ao executar uma espera [%s]. O erro foi ignorado ", tempoEsperarRecarregamentoElemento);
+			Log.registrarInformacao(mensagem);
+		}
+	}
+
+	public static void executarJavaScript(String comandoJavaScript) {
+		Log.registrarInformacao(String.format("Executando comando javacript [%s].", comandoJavaScript));
+		JavascriptExecutor executorJs = (JavascriptExecutor) driver;
+		executorJs.executeScript(comandoJavaScript);
+	}
+
+	private static void executarJavaScript(String comandoJavaScript, WebElement elemento) {
+		Log.registrarInformacao(String.format("Executando comando javacript [%s] no elemento [%s]", comandoJavaScript, elemento.getTagName()));
+		JavascriptExecutor executorJs = (JavascriptExecutor) driver;
+		executorJs.executeScript(comandoJavaScript, elemento);
+	}
+
+	public static void executarScrool(int x, int y) {
+		String comandoJs = String.format("window.scrollBy(%s,%s)", x, y);
+		Navegador.executarJavaScript(comandoJs);
+	}
+
+	public static void executarScroolX(int x) {
+		String comandoJs = String.format("window.scrollBy(%s,0)", x);
+		Navegador.executarJavaScript(comandoJs);
+	}
+
+	public static void executarScroolY(int y) {
+		String comandoJs = String.format("window.scrollBy(0,%s)", y);
+		Navegador.executarJavaScript(comandoJs);
+	}
+
+	public static void executarTesteNo(NavegadorUtilizado navegador) {
+		navegadorUtilizado = navegador;
+	}
+
 	public static void fechar() throws Exception {
 		Log.registrarInformacao("Fechando o " + navegadorUtilizado.toString());
 		getDriver().quit();
 		driver = null;
-	}
-
-	public static void atualizarPagina() throws Exception {
-		Log.registrarInformacao("Atualizando a Página");
-		getDriver().navigate().refresh();
 	}
 
 	public static WebDriver getDriver() throws Exception {
@@ -59,9 +161,26 @@ public class Navegador {
 		}
 		return driver;
 	}
-	
-	public static void injetarDriver(WebDriver driverInjetado) {
-		driver = driverInjetado;
+
+	public static String getTituloDaPaginaAtual() {
+		return driver.getTitle();
+	}
+
+	public static String getUrlAtual() {
+		return driver.getCurrentUrl();
+	}
+
+	public static void gravarCodigoFontePagina(String nomeArquivo) throws Exception {
+		try {
+			String nomeCompletoArquivo = "target\\" + nomeArquivo + ".html";
+			Log.registrarInformacao(String.format("Salvando código fonte da página [%s]", nomeCompletoArquivo));
+			String codigoPagina = codigoFonteDaPagina();
+			UtilitarioTexto.escreverArquivo(nomeCompletoArquivo, codigoPagina);		
+		} catch (Exception ex) {
+			Log.registrarAlerta("Erro ao salvar código fonte da página");
+			Log.registrarErro(ex);
+			throw ex;
+		}
 	}
 
 	private static WebDriver iniciarNavegador() throws Exception {
@@ -95,122 +214,21 @@ public class Navegador {
 		return driverTemporario;
 	}
 
-	public static WebElement obterElemento(Localizador localizador) throws Exception {
-		Log.registrarInformacao("Localizando o elemento [" + localizador + "]");
-		WebElement elementoLocalizado = null;
-
-		switch (localizador.getLocalizarPor()) {
-		case NOME:
-		case NAME:
-			elementoLocalizado = driver.findElement(By.name(localizador.getExpressaoElemento()));
-			break;
-		case ID:
-			elementoLocalizado = driver.findElement(By.id(localizador.getExpressaoElemento()));
-			break;
-		case XPATH:
-			elementoLocalizado = driver.findElement(By.xpath(localizador.getExpressaoElemento()));
-			break;
-		case TAGNAME:
-			elementoLocalizado = driver.findElement(By.tagName(localizador.getExpressaoElemento()));
-			break;
-		case CSSCLASS:
-			elementoLocalizado = driver.findElement(By.className(localizador.getExpressaoElemento()));
-			break;
-		case CSSSELECTOR:
-			elementoLocalizado = driver.findElement(By.cssSelector(localizador.getExpressaoElemento()));
-			break;
-		default:
-			String mensagem = "O localizador [" + localizador
-					+ "] do elemento não é válido! Não será possível localizá-lo. Utilize 'nome', 'id' ou 'xpath' como localizador.";
-			throw new Exception(mensagem);
-		}
-
-		return elementoLocalizado;
-	}
-
-	public static WebElement obterElementoPorXpath(String xpathDoElemento) {
-		return obterElementoPor(By.xpath(xpathDoElemento));
-	}
-
-	public static WebElement obterElementoPorId(String idDoElemento) {
-		return obterElementoPor(By.id(idDoElemento));
-	}
-
-	public static WebElement obterElementoPorNome(String nomeDoElemento) {
-		return obterElementoPor(By.name(nomeDoElemento));
-	}
-
-	public static List<WebElement> obterColecaoPorXpath(String xpathDaColecao) {
-		return obterColecaoPor(By.xpath(xpathDaColecao));
-	}
-
-	private static WebElement obterElementoPor(By localizador) {
-		return driver.findElement(localizador);
-	}
-
-	private static List<WebElement> obterColecaoPor(By localizador) {
-		return driver.findElements(localizador);
-	}
-
-	public static void executarTesteNo(NavegadorUtilizado navegador) {
-		navegadorUtilizado = navegador;
-	}
-
-	public static String getUrlAtual() {
-		return driver.getCurrentUrl();
-	}
-
-	public static String codigoFonteDaPagina() throws Exception {
-		return getDriver().getPageSource();
-	}
-
-	public static String getTituloDaPaginaAtual() {
-		return driver.getTitle();
+	public static void injetarDriver(WebDriver driverInjetado) {
+		driver = driverInjetado;
 	}
 
 	public static void limparTodosCookies() {
 		driver.manage().deleteAllCookies();
 	}
 
-	public static void passarMouseSobre(WebElement elemento) {
-		Actions acoes = new Actions(driver);
-		acoes.moveToElement(elemento).build().perform();
-	}
-
-	public static void arrastarElementoPara(WebElement elemento, WebElement destino) {
-		Actions acoes = new Actions(driver);
-		acoes.dragAndDrop(elemento, destino).build().perform();
-	}
-
-	public static void clicarAceitarNoAlerta() {
-		driver.switchTo().alert().accept();
-	}
-
-	public static void clicarDuasVezes(WebElement elemento) {
-		Actions acoes = new Actions(driver);
-		acoes.doubleClick(elemento);
-		acoes.perform();
-	}
-
-	public static void executarScrool(int x, int y) {
-		String comandoJs = String.format("window.scrollBy(%s,%s)", x, y);
-		Navegador.executarJavaScript(comandoJs);
-	}
-
-	public static void executarScroolY(int y) {
-		String comandoJs = String.format("window.scrollBy(0,%s)", y);
-		Navegador.executarJavaScript(comandoJs);
-	}
-
-	public static void executarScroolX(int x) {
-		String comandoJs = String.format("window.scrollBy(%s,0)", x);
-		Navegador.executarJavaScript(comandoJs);
-	}
-
-	public static void executarJavaScript(String comandoJavaScript) {
-		Log.registrarInformacao(String.format("Executando comando javacript [%s].", comandoJavaScript));
-		JavascriptExecutor executorJs = (JavascriptExecutor) driver;
-		executorJs.executeScript(comandoJavaScript);
+	public static List<Elemento> localizarElementos(Localizador localizador) throws Exception {
+		List<WebElement> webElementsLocalizados = obterColecao(localizador);
+		List<Elemento> listaDeElementos = new ArrayList<Elemento>();
+		for (WebElement webElement : webElementsLocalizados) {
+			listaDeElementos.add(new Elemento(webElement));
+		}
+		return listaDeElementos;
 	}
 
 	public static void manipularValorAtributo(WebElement elemento, String nomeAtriburo, String novoValor) {
@@ -218,94 +236,8 @@ public class Navegador {
 		executarJavaScript(comando, elemento);
 	}
 
-	private static void executarJavaScript(String comandoJavaScript, WebElement elemento) {
-		Log.registrarInformacao(String.format("Executando comando javacript [%s] no elemento [%s]", comandoJavaScript, elemento.getTagName()));
-		JavascriptExecutor executorJs = (JavascriptExecutor) driver;
-		executorJs.executeScript(comandoJavaScript, elemento);
-	}
-
 	public static NavegadorUtilizado navegandoNo() {
 		return navegadorUtilizado;
-	}
-
-	public static void aguardarAteQueEstejaVisivel(final WebElement elemento) throws Exception {
-		String tempoQueIraAguardar = Configuracoes.getConfiguracaoPrincipal("tempo-esperava-elemento-visivel");
-		Log.registrarInformacao(String.format("Aguandando que o elemento esteja visível [%s segundos]", tempoQueIraAguardar));
-		WebDriverWait wait = new WebDriverWait(driver, Long.parseLong(tempoQueIraAguardar));
-
-		wait.until(ExpectedConditions.visibilityOf(elemento));
-
-		/*
-		 * wait.until(new ExpectedCondition<Boolean>() { public Boolean
-		 * apply(WebDriver driver) { Log.registrarDebug(String.format(
-		 * "O elemento [%s] ainda está visível [%s]", elemento.getTagName(),
-		 * elemento.isDisplayed())); return elemento.isDisplayed(); } });
-		 */
-	}
-
-	public static void aguardarAteQueAtributoEstejaPreenchido(final WebElement elemento, final String atributo) throws Exception {
-		String tempoQueIraAguardar = Configuracoes.getConfiguracaoPrincipal("tempo-esperava-elemento-visivel");
-		Log.registrarInformacao(String.format("Aguandando que o atributo [%s] do elemento [%s] esteja preenchido [%s segundos]", atributo,
-				elemento.getTagName(), tempoQueIraAguardar));
-		WebDriverWait wait = new WebDriverWait(driver, Long.parseLong(tempoQueIraAguardar));
-
-		wait.until(new ExpectedCondition<Boolean>() {
-			public Boolean apply(WebDriver driver) {
-				String valor = elemento.getAttribute(atributo);
-				Log.registrarDebug(String.format("Valor do atributo [%s] é [%s]", atributo, valor));
-				return valor != null && valor != "";
-			}
-		});
-	}
-
-	public static void preencherJanelaDialogoCaminhoArquivoCom(final String caminhoArquivo) throws AWTException, InterruptedException {
-		driver.switchTo().window(driver.getWindowHandle());
-
-		Robot robo = new Robot();
-
-		for (int i = 0; i < caminhoArquivo.length(); i++) {
-			int codigoChar = (int) caminhoArquivo.toUpperCase().charAt(i);
-			Log.registrarDebug(String.format("Preenchendo com texto utilizando o Robot [Char: %s - Cód: %s]", caminhoArquivo.charAt(i), codigoChar));
-
-			if (codigoChar == 58) {
-				robo.keyPress(java.awt.event.KeyEvent.VK_SHIFT);
-				robo.keyPress(java.awt.event.KeyEvent.VK_SEMICOLON);
-				robo.keyRelease(java.awt.event.KeyEvent.VK_SEMICOLON);
-				robo.keyRelease(java.awt.event.KeyEvent.VK_SHIFT);
-			} else {
-				robo.keyPress(codigoChar);
-				robo.keyRelease(codigoChar);
-			}
-		}
-
-		robo.keyPress(java.awt.event.KeyEvent.VK_ENTER);
-		robo.keyRelease(java.awt.event.KeyEvent.VK_ENTER);
-	}
-
-	public static void capturarPrintTela(String nomeArquivo) throws Exception {
-		try {
-			String nomeCompletoArquivo = "target\\" + nomeArquivo + ".jpg";
-			Log.registrarInformacao(String.format("Granvando print de tela [%s]", nomeCompletoArquivo));
-			File file = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
-			FileUtils.copyFile(file, new File(nomeCompletoArquivo));
-		} catch (Exception ex) {
-			Log.registrarAlerta("Erro ao capturar um print da tela");
-			Log.registrarErro(ex);
-			throw ex;
-		}
-	}
-
-	public static void gravarCodigoFontePagina(String nomeArquivo) throws Exception {
-		try {
-			String nomeCompletoArquivo = "target\\" + nomeArquivo + ".html";
-			Log.registrarInformacao(String.format("Salvando código fonte da página [%s]", nomeCompletoArquivo));
-			String codigoPagina = codigoFonteDaPagina();
-			UtilitarioTexto.escreverArquivo(nomeCompletoArquivo, codigoPagina);		
-		} catch (Exception ex) {
-			Log.registrarAlerta("Erro ao salvar código fonte da página");
-			Log.registrarErro(ex);
-			throw ex;
-		}
 	}
 
 	public static List<WebElement> obterColecao(Localizador localizador) throws Exception {
@@ -341,13 +273,90 @@ public class Navegador {
 		return elementosLocalizados;
 	}
 
-	public static List<Elemento> localizarElementos(Localizador localizador) throws Exception {
-		List<WebElement> webElementsLocalizados = obterColecao(localizador);
-		List<Elemento> listaDeElementos = new ArrayList<Elemento>();
-		for (WebElement webElement : webElementsLocalizados) {
-			listaDeElementos.add(new Elemento(webElement));
+	private static List<WebElement> obterColecaoPor(By localizador) {
+		return driver.findElements(localizador);
+	}
+
+	public static List<WebElement> obterColecaoPorXpath(String xpathDaColecao) {
+		return obterColecaoPor(By.xpath(xpathDaColecao));
+	}
+
+	public static WebElement obterElemento(Localizador localizador) throws Exception {
+		Log.registrarInformacao("Localizando o elemento [" + localizador + "]");
+		WebElement elementoLocalizado = null;
+
+		switch (localizador.getLocalizarPor()) {
+		case NOME:
+		case NAME:
+			elementoLocalizado = driver.findElement(By.name(localizador.getExpressaoElemento()));
+			break;
+		case ID:
+			elementoLocalizado = driver.findElement(By.id(localizador.getExpressaoElemento()));
+			break;
+		case XPATH:
+			elementoLocalizado = driver.findElement(By.xpath(localizador.getExpressaoElemento()));
+			break;
+		case TAGNAME:
+			elementoLocalizado = driver.findElement(By.tagName(localizador.getExpressaoElemento()));
+			break;
+		case CSSCLASS:
+			elementoLocalizado = driver.findElement(By.className(localizador.getExpressaoElemento()));
+			break;
+		case CSSSELECTOR:
+			elementoLocalizado = driver.findElement(By.cssSelector(localizador.getExpressaoElemento()));
+			break;
+		default:
+			String mensagem = "O localizador [" + localizador
+					+ "] do elemento não é válido! Não será possível localizá-lo. Utilize 'nome', 'id' ou 'xpath' como localizador.";
+			throw new Exception(mensagem);
 		}
-		return listaDeElementos;
+
+		return elementoLocalizado;
+	}
+
+	private static WebElement obterElementoPor(By localizador) {
+		return driver.findElement(localizador);
+	}
+
+	public static WebElement obterElementoPorId(String idDoElemento) {
+		return obterElementoPor(By.id(idDoElemento));
+	}
+
+	public static WebElement obterElementoPorNome(String nomeDoElemento) {
+		return obterElementoPor(By.name(nomeDoElemento));
+	}
+
+	public static WebElement obterElementoPorXpath(String xpathDoElemento) {
+		return obterElementoPor(By.xpath(xpathDoElemento));
+	}
+
+	public static void passarMouseSobre(WebElement elemento) {
+		Actions acoes = new Actions(driver);
+		acoes.moveToElement(elemento).build().perform();
+	}
+
+	public static void preencherJanelaDialogoCaminhoArquivoCom(final String caminhoArquivo) throws AWTException, InterruptedException {
+		driver.switchTo().window(driver.getWindowHandle());
+
+		Robot robo = new Robot();
+
+		for (int i = 0; i < caminhoArquivo.length(); i++) {
+			int codigoChar = (int) caminhoArquivo.toUpperCase().charAt(i);
+			Log.registrarDebug(String.format("Preenchendo com texto utilizando o Robot [Char: %s - Cód: %s]", caminhoArquivo.charAt(i), codigoChar));
+
+			if (codigoChar == 58) {
+				robo.keyPress(java.awt.event.KeyEvent.VK_SHIFT);
+				robo.keyPress(java.awt.event.KeyEvent.VK_SEMICOLON);
+				robo.keyRelease(java.awt.event.KeyEvent.VK_SEMICOLON);
+				robo.keyRelease(java.awt.event.KeyEvent.VK_SHIFT);
+			} else {
+				robo.keyPress(codigoChar);
+				robo.keyRelease(codigoChar);
+			}
+		}
+
+		robo.keyPress(java.awt.event.KeyEvent.VK_ENTER);
+		robo.keyRelease(java.awt.event.KeyEvent.VK_ENTER);
 	}
 
 	public static void usarIFrame(Elemento iframe) {
@@ -358,15 +367,6 @@ public class Navegador {
 	public static void voltarParaFramePrincipal() {
 		Log.registrarInformacao("Voltando a navegação para Frame principal");
 		driver.switchTo().defaultContent();
-	}
-
-	public static void esperarPor(long tempoEsperarRecarregamentoElemento) {
-		try {
-			Thread.sleep(tempoEsperarRecarregamentoElemento);
-		} catch (InterruptedException e) {
-			String mensagem = String.format("Houve um erro ao executar uma espera [%s]. O erro foi ignorado ", tempoEsperarRecarregamentoElemento);
-			Log.registrarInformacao(mensagem);
-		}
 	}
 
 }

@@ -10,10 +10,16 @@ public class AcoesTeclado {
 		this.elemento = elemento;
 	}
 
+	/**
+	 * Pressiona a tecla ENTER.
+	 */
 	public void pressionarEnter() {
 		this.elemento.sendKeys(Keys.ENTER);
 	}
-	
+
+	/**
+	 * Pressiona a tecla ESC.
+	 */
 	public void pressionarEsc() {
 		this.elemento.sendKeys(Keys.ESCAPE);
 	}
