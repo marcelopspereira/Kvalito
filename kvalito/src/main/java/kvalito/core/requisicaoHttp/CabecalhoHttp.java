@@ -1,10 +1,18 @@
 package kvalito.core.requisicaoHttp;
 
+
 public class CabecalhoHttp {
 	
 	private String nome;
 	private String valor;
 	
+	/**
+	 * Armazena atributos de Http Header
+	 * 
+	 * @param nome nome de um Http Header Ex.: Content-Type, Authorization, User-Agent
+	 * @param valor valor do Http Header
+	 * @return      nova instância de um Htp Header especificado
+	 */
 	public CabecalhoHttp(String nome, String valor) {
 		this.nome=nome;
 		this.valor=valor;

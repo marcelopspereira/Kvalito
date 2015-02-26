@@ -23,6 +23,12 @@ public class RequisicaoHttp {
 	private List<CabecalhoHttp> cabecalhosHttp;
 	private String corpoResposta;
 
+	/**
+	 * Cria uma nova requisição HTTP para um determinado endereco
+	 * 
+	 * @param url  URL do Endereço Http
+	 * @return      nova instância de RequisicaoHttp.
+	 */
 	public RequisicaoHttp(String url) {
 		this.url = url;
 		this.redirecionamentos = new ArrayList<EnderecoHttp>();
@@ -30,6 +36,14 @@ public class RequisicaoHttp {
 		Log.registrarInformacao(String.format("Iniciando uma nova requisição HTTP [%s]", url));
 	}
 
+	
+	/**
+	 * Processa a requisição HTTP
+	 * 
+	 * @param url  URL do Endereço Http
+	 * @return      nova instância de RequisicaoHttp.
+	 * @throws IOException
+	 */
 	public void executar() throws IOException {
 		Log.registrarInformacao(String.format("Executando a requisição"));
 		URL resourceUrl;
@@ -72,6 +86,13 @@ public class RequisicaoHttp {
 		Log.registrarInformacao(String.format(mensagem,this.status()));
 	}
 
+	/**
+	 * Recupera o conteudo do Endereço Http
+	 * 
+	 * @param connection  HttpURLConnection ativa
+	 * @return      String com o conteudo do endereço Http
+	 * @throws IOException
+	 */
 	private String carregarBody(HttpURLConnection connection) throws IOException {
 		if (connection != null) {
 			String encoding = connection.getContentEncoding();
@@ -81,6 +102,13 @@ public class RequisicaoHttp {
 		return corpoResposta;
 	}
 
+	/**
+	 * Recupera um conteudo independente do Status Http
+	 * 
+	 * @param connection  HttpURLConnection ativa
+	 * @return      String com o conteudo do endereço Http
+	 * @throws IOException
+	 */
 	private InputStream obterStreamDeAcordoComStatus(HttpURLConnection connection) throws IOException {
 		if (connection.getResponseCode() < 400) {
 			return connection.getInputStream();
@@ -88,14 +116,31 @@ public class RequisicaoHttp {
 		return connection.getErrorStream();
 	}
 
+	/**
+	 * Retorna o Status Http do endereço de destino da Requisição
+	 * 
+	 * @return      codigo do Status Http
+	 */
 	public int status() {
 		return getEnderecoDestino().getHttpStatusCode();
 	}
 
+	/**
+	 * Retorna o valor de um cookie do endereço de destino
+	 * 
+	 * @param nomeCookie  nome do cookie
+	 * @return      String com o valor do cookie especificado
+	 */
 	public String valorCookie(String nomeCookie) {
 		return getEnderecoDestino().getCookie(nomeCookie).getValue();
 	}
 
+	/**
+	 * Adiciona um cabeçalho Http personalizado na Rquisição
+	 * 
+	 * @param nomeCabecalho  nome do cabeçalho Http
+	 * @param valorCabecalho  valor do cabeçalho
+	 */
 	public void adicionarCabecalhoHttp(String nomeCabecalho, String valorCabecalho) {
 		CabecalhoHttp cabecalho = new CabecalhoHttp(nomeCabecalho, valorCabecalho);
 		String mensagem = "Incluiu um cabeçalho na requisição [%s]";
@@ -103,30 +148,55 @@ public class RequisicaoHttp {
 		this.cabecalhosHttp.add(cabecalho);
 	}
 
+	/**
+	 * Adiciona um cabeçalho Http personalizado com User-Agent na Rquisição
+	 * 
+	 * @param valorCabecalho  valor do cabeçalho User-Agent
+	 */
 	public void adicionarUserAgent(String valor) {
 		adicionarCabecalhoHttp("User-Agent", valor);
 	}
 
+	/**
+	 * Em caso de redirecionamento, retorna o endereço de origem da Requisição 
+	 */
 	public EnderecoHttp getEnderecoOrigem() {
 		return redirecionamentos != null ? redirecionamentos.get(0) : null;
 	}
 
+	/**
+	 * Retorna o endereço de destino da Requisição 
+	 */
 	public EnderecoHttp getEnderecoDestino() {
 		return (redirecionamentos != null && redirecionamentos.size() > 0) ? redirecionamentos.get(redirecionamentos.size() - 1) : null;
 	}
 
+	/**
+	 * Em caso de redirecionamento, retorna a lista dos endereços envolvidos na Requisição Http 
+	 */
 	public List<EnderecoHttp> getRedirecionamentos() {
 		return redirecionamentos;
 	}
 
+	/**
+	 * Verifica se houve redirecionamento na Requisição Http 
+	 * @return      verdadeiro ou falso;
+	 */
 	public boolean houveRedirecionamento() {
 		return redirecionamentos.size() > 1;
 	}
 
+	/**
+	 * Retorna o conteudo do endereço de destino da Requisição 
+	 */
 	public String corpoResposta() {
 		return corpoResposta;
 	}
 
+	/**
+	 * Extrai informações do conteudo da requisição de acordo com Expressão Regular
+	 * @return      String com o resultado da extração 
+	 */
 	public String extrairConteudoCorpoResposta(String regexExtracao) {
 		return UtilitarioTexto.extrair(corpoResposta(), regexExtracao);
 	}

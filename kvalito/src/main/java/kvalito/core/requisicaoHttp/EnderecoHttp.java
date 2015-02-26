@@ -10,16 +10,37 @@ public class EnderecoHttp {
 	private int httpStatusCode;
 	private List<HttpCookie> cookies;
 
+	/**
+	 * Armazena informações de um endereço Http
+	 * 
+	 * @return      nova instância de um EnderecoHttp vazia
+	 */
 	public EnderecoHttp() {
 		this.url = "";
 		this.httpStatusCode = 0;
 	}
 
+	/**
+	 * Armazena informações de um endereço Http e seu Status Code
+	 * 
+	 * @param url  URL do Endereço Http
+	 * @param httpStatusCode Status Code do Endereço Http Ex.: 200, 404, 500
+	 * @return      nova instância de EnderecoHttp especificado
+	 */
 	public EnderecoHttp(String url, int httpStatusCode) {
 		this.url = url;
 		this.httpStatusCode = httpStatusCode;
 	}
 
+	/**
+	 * Armazena informações de um endereço Http, Status Code, Cookies e Conteudo
+	 * 
+	 * @param url  URL do Endereço Http
+	 * @param httpStatusCode Status Code do Endereço Http Ex.: 200, 404, 500
+	 * @param cookies lista de HttpCookies do endereço Http
+	 * @param body conteudo do endereço Http
+	 * @return      nova instância de EnderecoHttp especificado
+	 */
 	public EnderecoHttp(String url, int httpStatusCode, List<HttpCookie> cookies, String body) {
 		this.url = url;
 		this.httpStatusCode = httpStatusCode;
@@ -35,6 +56,12 @@ public class EnderecoHttp {
 		return httpStatusCode;
 	}
 
+	/**
+	 * Retorna um HtpCookie especifico de um EnderecoHttp
+	 * 
+	 * @param nome  Nome do Cookie
+	 * @return      HttpCookie especifico
+	 */
 	public HttpCookie getCookie(String nome) {
 
 		for (HttpCookie cookie : this.cookies) {

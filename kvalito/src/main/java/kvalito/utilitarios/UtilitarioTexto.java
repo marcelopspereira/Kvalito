@@ -3,12 +3,18 @@ package kvalito.utilitarios;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UtilitarioTexto {
 
+	/**
+	 * Extrai informações de um conteudo de acordo com uma Expressão Regular especificada
+	 * 
+	 * @param texto  String com informações a serem extraídas
+	 * @param regexExtracao  Padrão Regex utilizado 
+	 * @return      String com o resultado da extração
+	 */
 	public static String extrair(String texto, String regexExtracao) {
 		Pattern pattern = Pattern.compile(regexExtracao);
 		Matcher matcher = pattern.matcher(texto);
@@ -18,6 +24,13 @@ public class UtilitarioTexto {
 		return null;
 	}
 
+	/**
+	 * Grava informações em um arquivo
+	 * 
+	 * @param caminhoArquivo  Local de armazenamento do arquivo
+	 * @param conteudo  Conteudo do Arquivo
+	 * @throws Exception
+	 */
 	public static void escreverArquivo(String caminhoArquivo, String conteudo) throws Exception {
 		BufferedWriter writer = null;
 		File arquivo = new File(caminhoArquivo);
