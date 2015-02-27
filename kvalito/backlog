@@ -1,6 +1,16 @@
 BACKLOG ############################################################################
+---- DONE
+
+obterCaminhoRelativo(arquivo) - OK
+
+browser default - OK
+
+---- WIP
+
+Formatação de Datas e DatePicker
 
 ***Ghost Driver
+digitar com robot(input textarea)
 
 esperar elemento ficar invisivel
 
@@ -10,15 +20,9 @@ Gerador de código único(UUID)
 
 Aguardar término do carregamento de um IFrame (Problema que ocorreu nos testes do Portal do Assinante)
 
-Preencher aleatoriamente não está executando o SendKeys
-
 Esperar arquivo ser baixado
 
-Formatação de Datas e DatePicker
-
 Carregar propriedades uma unica vez(lazy load)
-
-browser default
 
 exibiu todos elementos da lista
 
@@ -27,11 +31,11 @@ FIM BACKLOG ####################################################################
 
 v2.16 - WIP 
 
-	Interface para testes de requisições HTTP
+	Interface para testes de requisições HTTP - OK
 
-	Cookies(existencia, valor, contem, apagar, criar)
+	Cookies(existencia, valor, contem, apagar, criar) - OK
 	
-	Manipulação de requisições HTTP(Leandro)
+	Manipulação de requisições HTTP(Leandro) - OK
 	
 	obter valor de atributo css - OK
 	

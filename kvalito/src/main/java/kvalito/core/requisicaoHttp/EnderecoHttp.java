@@ -57,7 +57,7 @@ public class EnderecoHttp {
 	}
 
 	/**
-	 * Retorna um HtpCookie especifico de um EnderecoHttp
+	 * Retorna um HttpCookie especifico de um EnderecoHttp
 	 * 
 	 * @param nome  Nome do Cookie
 	 * @return      HttpCookie especifico

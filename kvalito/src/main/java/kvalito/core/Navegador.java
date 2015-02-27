@@ -31,7 +31,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class Navegador {
 
 	private static WebDriver driver;
-	private static NavegadorUtilizado navegadorUtilizado = NavegadorUtilizado.FIREFOX;
+	private static NavegadorUtilizado navegadorUtilizado;
 	private static int maximoTentativasTratarElementoVelho;
 
 	public static void abrirUrl(String url) throws Exception {
@@ -76,7 +76,7 @@ public class Navegador {
 		Actions acoes = new Actions(driver);
 		acoes.dragAndDrop(elemento, destino).build().perform();
 	}
-	
+
 	public static void atualizarPagina() throws Exception {
 		Log.registrarInformacao("Atualizando a Página");
 		getDriver().navigate().refresh();
@@ -175,7 +175,7 @@ public class Navegador {
 			String nomeCompletoArquivo = "target\\" + nomeArquivo + ".html";
 			Log.registrarInformacao(String.format("Salvando código fonte da página [%s]", nomeCompletoArquivo));
 			String codigoPagina = codigoFonteDaPagina();
-			UtilitarioTexto.escreverArquivo(nomeCompletoArquivo, codigoPagina);		
+			UtilitarioTexto.escreverArquivo(nomeCompletoArquivo, codigoPagina);
 		} catch (Exception ex) {
 			Log.registrarAlerta("Erro ao salvar código fonte da página");
 			Log.registrarErro(ex);
@@ -186,7 +186,10 @@ public class Navegador {
 	private static WebDriver iniciarNavegador() throws Exception {
 		WebDriver driverTemporario = null;
 		int tempodDeEspera = Integer.parseInt(Configuracoes.getConfiguracaoPrincipal("tempo-de-espera-elemeto-implicito"));
-
+		if (navegadorUtilizado == null) {
+			String chaveNavegador = Configuracoes.getConfiguracaoPrincipal("navegador-default");
+			navegadorUtilizado = NavegadorUtilizado.valueOf(chaveNavegador);
+		}
 		try {
 			switch (navegadorUtilizado) {
 			case FIREFOX:
@@ -359,11 +362,20 @@ public class Navegador {
 		robo.keyRelease(java.awt.event.KeyEvent.VK_ENTER);
 	}
 
+	/**
+	 * Navega para dentro de um iframe.
+	 * 
+	 * @param iframe
+	 *            Elemento iframe.
+	 */
 	public static void usarIFrame(Elemento iframe) {
 		Log.registrarInformacao("Navegando para dentro de um IFrame");
 		driver.switchTo().frame(iframe.webElement());
 	}
 
+	/**
+	 * Volta para o frame principal.
+	 */
 	public static void voltarParaFramePrincipal() {
 		Log.registrarInformacao("Voltando a navegação para Frame principal");
 		driver.switchTo().defaultContent();
