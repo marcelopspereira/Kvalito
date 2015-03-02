@@ -159,6 +159,12 @@ public class Navegador {
 		Navegador.executarJavaScript(comandoJs);
 	}
 
+	/**
+	 * Define qual navegador será utilizado para executar os testes. </i>Obs.: O
+	 * default é Firefox</i>
+	 * 
+	 * @param navegadorUtilizado
+	 */	
 	public static void executarTesteNo(NavegadorUtilizado navegador) {
 		navegadorUtilizado = navegador;
 	}
@@ -401,8 +407,6 @@ public class Navegador {
 			robo.keyPress(KeyEvent.VK_ALT);
 			int codigoChar = texto.charAt(i);
 			for (int j = 3; j >= 0; --j) {
-				// extracts a single decade of the key-code and adds
-				// an offset to get the required VK_NUMPAD key-code
 				int numpad_kc = codigoChar / (int) (Math.pow(10, j)) % 10 + KeyEvent.VK_NUMPAD0;
 
 				robo.keyPress(numpad_kc);

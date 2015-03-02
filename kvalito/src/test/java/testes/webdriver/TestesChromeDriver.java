@@ -53,7 +53,8 @@ public class TestesChromeDriver extends Pagina {
 	public void preencherSimulandoDigitacao() throws Exception{
 		Elemento elemento = localizarElemento("caixa-texto");
 		elemento.preencherSimulandoDigitacao("Olá Mundo!");
-		assertEquals("Olá Mundo!", elemento.valorAtributo("value"));
+		esperarCarregamentoPor(2000);
+		assertEquals("Olá Mundo!", elemento.valor());
 	}
 	
 	@Test
