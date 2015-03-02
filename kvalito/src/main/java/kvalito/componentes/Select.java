@@ -79,14 +79,14 @@ public class Select extends ElementoCore {
 	};
 
 	/**
-	 * Selecionar uma opção de um Select por Índice. <br>
+	 * Selecionar uma opção de um Select por Indice. <br>
 	 * 
 	 * @param indiceParaSelecionar
-	 *            Índice da opção que deverá ser selecionada
+	 *            Indice da opção que deverá ser selecionada
 	 * @throws Exception
 	 */
 	public void selecionarPorIndice(int indiceParaSelecionar) throws Exception {
-		Log.registrarInformacao("Escolhendo opção do SelectBox por ÍNDICE [" + indiceParaSelecionar + "] - SelectBox [" + this.toString() + "]");
+		Log.registrarInformacao("Escolhendo opção do SelectBox por INDICE [" + indiceParaSelecionar + "] - SelectBox [" + this.toString() + "]");
 		this.selecionar(1, Integer.toString(indiceParaSelecionar));
 		Log.registrarInformacao("Valor selecionado");
 	}

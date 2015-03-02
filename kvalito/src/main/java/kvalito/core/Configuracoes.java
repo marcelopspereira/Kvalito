@@ -86,6 +86,12 @@ public class Configuracoes {
 		return getConfiguracao(chaveconfiguracao, propriedadesPrincipais);
 	}
 
+	/**
+	 * Retorna o domínio utilizado nas configurações de página. <br>
+	 * 
+	 * @return Url do domínio.
+	 * @throws Exception
+	 */
 	public static String getDominio() throws Exception {
 		carregarPropriedades();
 		String nomePropriedadeDominioUtilizado = getConfiguracaoPagina("dominio-utlizado");

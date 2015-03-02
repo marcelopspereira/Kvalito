@@ -6,6 +6,12 @@ import kvalito.componentes.Elemento;
 import kvalito.componentes.Select;
 
 public abstract class Pagina {
+
+	/**
+	 * Retorna a url atual da página.<br>
+	 * 
+	 * @return Url atual.
+	 */
 	public static String getUrlAtual() {
 		return Navegador.getUrlAtual();
 	}

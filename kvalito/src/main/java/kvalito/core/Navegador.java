@@ -58,6 +58,19 @@ public class Navegador {
 		});
 	}
 
+	public static void aguardarAteQueEstejaInvisivel(final WebElement elemento) throws Exception {
+		String tempoQueIraAguardar = Configuracoes.getConfiguracaoPrincipal("tempo-esperava-elemento-invisivel");
+		Log.registrarInformacao(String.format("Aguandando que o elemento esteja invisível [%s segundos]", tempoQueIraAguardar));
+		WebDriverWait wait = new WebDriverWait(driver, Long.parseLong(tempoQueIraAguardar));
+		wait.until(new ExpectedCondition<Boolean>() {
+			public Boolean apply(WebDriver driver) {
+				Log.registrarDebug(String.format("O elemento [%s] ainda está visível [%s]", elemento.getTagName(), elemento.isDisplayed()));
+				return !elemento.isDisplayed();
+			}
+		});
+
+	}
+
 	public static void aguardarAteQueEstejaVisivel(final WebElement elemento) throws Exception {
 		String tempoQueIraAguardar = Configuracoes.getConfiguracaoPrincipal("tempo-esperava-elemento-visivel");
 		Log.registrarInformacao(String.format("Aguandando que o elemento esteja visível [%s segundos]", tempoQueIraAguardar));
@@ -71,19 +84,6 @@ public class Navegador {
 		 * "O elemento [%s] ainda está visível [%s]", elemento.getTagName(),
 		 * elemento.isDisplayed())); return elemento.isDisplayed(); } });
 		 */
-	}
-
-	public static void aguardarAteQueEstejaInvisivel(final WebElement elemento) throws Exception {
-		String tempoQueIraAguardar = Configuracoes.getConfiguracaoPrincipal("tempo-esperava-elemento-invisivel");
-		Log.registrarInformacao(String.format("Aguandando que o elemento esteja invisível [%s segundos]", tempoQueIraAguardar));
-		WebDriverWait wait = new WebDriverWait(driver, Long.parseLong(tempoQueIraAguardar));
-		wait.until(new ExpectedCondition<Boolean>() {
-			public Boolean apply(WebDriver driver) {
-				Log.registrarDebug(String.format("O elemento [%s] ainda está visível [%s]", elemento.getTagName(), elemento.isDisplayed()));
-				return !elemento.isDisplayed();
-			}
-		});
-
 	}
 
 	public static void arrastarElementoPara(WebElement elemento, WebElement destino) {
@@ -382,6 +382,22 @@ public class Navegador {
 		robo.keyRelease(java.awt.event.KeyEvent.VK_ENTER);
 	}
 
+	public static void preencherSimulandoDigitacao(String texto) throws AWTException {
+		Robot robo = new Robot();
+		for (int i = 0; i < texto.length(); i++) {
+			robo.keyPress(KeyEvent.VK_ALT);
+			int codigoChar = texto.charAt(i);
+			for (int j = 3; j >= 0; --j) {
+				int numpad_kc = codigoChar / (int) (Math.pow(10, j)) % 10 + KeyEvent.VK_NUMPAD0;
+
+				robo.keyPress(numpad_kc);
+				robo.keyRelease(numpad_kc);
+			}
+
+			robo.keyRelease(KeyEvent.VK_ALT);
+		}
+	}
+
 	/**
 	 * Navega para dentro de um iframe.
 	 * 
@@ -399,22 +415,6 @@ public class Navegador {
 	public static void voltarParaFramePrincipal() {
 		Log.registrarInformacao("Voltando a navegação para Frame principal");
 		driver.switchTo().defaultContent();
-	}
-
-	public static void preencherSimulandoDigitacao(String texto) throws AWTException {
-		Robot robo = new Robot();
-		for (int i = 0; i < texto.length(); i++) {
-			robo.keyPress(KeyEvent.VK_ALT);
-			int codigoChar = texto.charAt(i);
-			for (int j = 3; j >= 0; --j) {
-				int numpad_kc = codigoChar / (int) (Math.pow(10, j)) % 10 + KeyEvent.VK_NUMPAD0;
-
-				robo.keyPress(numpad_kc);
-				robo.keyRelease(numpad_kc);
-			}
-
-			robo.keyRelease(KeyEvent.VK_ALT);
-		}
 	}
 
 }

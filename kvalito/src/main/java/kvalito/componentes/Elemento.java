@@ -36,6 +36,7 @@ public class Elemento extends ElementoCore {
 
 	/**
 	 * Possibilita a execução de ações do teclado.
+	 * 
 	 * @return
 	 */
 	public AcoesTeclado acoesTeclado() {
@@ -71,6 +72,10 @@ public class Elemento extends ElementoCore {
 		return elemento.isEnabled();
 	}
 
+	/**
+	 * Verifica se o elemento está preenchido. <br>
+	 * 
+	 */
 	public boolean estaPreenchido() {
 		return possuiConteudo();
 	}
@@ -215,6 +220,11 @@ public class Elemento extends ElementoCore {
 		return elemento.getCssValue(nomeDoAtributo);
 	}
 
+	/**
+	 * Retorna o webElement equivalente ao elemento. <br>
+	 * 
+	 * @return WebElement.
+	 */
 	public WebElement webElement() {
 		return elemento;
 	}

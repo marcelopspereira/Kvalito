@@ -38,6 +38,51 @@ public class RequisicaoHttp {
 
 	
 	/**
+	 * Adiciona um cabeçalho Http personalizado na Rquisição
+	 * 
+	 * @param nomeCabecalho  nome do cabeçalho Http
+	 * @param valorCabecalho  valor do cabeçalho
+	 */
+	public void adicionarCabecalhoHttp(String nomeCabecalho, String valorCabecalho) {
+		CabecalhoHttp cabecalho = new CabecalhoHttp(nomeCabecalho, valorCabecalho);
+		String mensagem = "Incluiu um cabeçalho na requisição [%s]";
+		Log.registrarInformacao(String.format(mensagem, cabecalho.toString()));
+		this.cabecalhosHttp.add(cabecalho);
+	}
+
+	/**
+	 * Adiciona um cabeçalho Http personalizado com User-Agent na Rquisição
+	 * 
+	 * @param valorCabecalho  valor do cabeçalho User-Agent
+	 */
+	public void adicionarUserAgent(String valor) {
+		adicionarCabecalhoHttp("User-Agent", valor);
+	}
+
+	/**
+	 * Recupera o conteudo do Endereço Http
+	 * 
+	 * @param connection  HttpURLConnection ativa
+	 * @return      String com o conteudo do endereço Http
+	 * @throws IOException
+	 */
+	private String carregarBody(HttpURLConnection connection) throws IOException {
+		if (connection != null) {
+			String encoding = connection.getContentEncoding();
+			encoding = encoding == null ? "UTF-8" : encoding;
+			corpoResposta = IOUtils.toString(obterStreamDeAcordoComStatus(connection), encoding);
+		}
+		return corpoResposta;
+	}
+
+	/**
+	 * Retorna o conteudo do endereço de destino da Requisição 
+	 */
+	public String corpoResposta() {
+		return corpoResposta;
+	}
+
+	/**
 	 * Processa a requisição HTTP
 	 * 
 	 * @param url  URL do Endereço Http
@@ -87,19 +132,40 @@ public class RequisicaoHttp {
 	}
 
 	/**
-	 * Recupera o conteudo do Endereço Http
-	 * 
-	 * @param connection  HttpURLConnection ativa
-	 * @return      String com o conteudo do endereço Http
-	 * @throws IOException
+	 * Extrai informações do conteudo da requisição de acordo com Expressão Regular
+	 * @return      String com o resultado da extração 
 	 */
-	private String carregarBody(HttpURLConnection connection) throws IOException {
-		if (connection != null) {
-			String encoding = connection.getContentEncoding();
-			encoding = encoding == null ? "UTF-8" : encoding;
-			corpoResposta = IOUtils.toString(obterStreamDeAcordoComStatus(connection), encoding);
-		}
-		return corpoResposta;
+	public String extrairConteudoCorpoResposta(String regexExtracao) {
+		return UtilitarioTexto.extrair(corpoResposta(), regexExtracao);
+	}
+
+	/**
+	 * Retorna o endereço de destino da Requisição 
+	 */
+	public EnderecoHttp getEnderecoDestino() {
+		return (redirecionamentos != null && redirecionamentos.size() > 0) ? redirecionamentos.get(redirecionamentos.size() - 1) : null;
+	}
+
+	/**
+	 * Em caso de redirecionamento, retorna o endereço de origem da Requisição 
+	 */
+	public EnderecoHttp getEnderecoOrigem() {
+		return redirecionamentos != null ? redirecionamentos.get(0) : null;
+	}
+
+	/**
+	 * Em caso de redirecionamento, retorna a lista dos endereços envolvidos na Requisição Http 
+	 */
+	public List<EnderecoHttp> getRedirecionamentos() {
+		return redirecionamentos;
+	}
+
+	/**
+	 * Verifica se houve redirecionamento na Requisição Http 
+	 * @return      verdadeiro ou falso;
+	 */
+	public boolean houveRedirecionamento() {
+		return redirecionamentos.size() > 1;
 	}
 
 	/**
@@ -133,72 +199,6 @@ public class RequisicaoHttp {
 	 */
 	public String valorCookie(String nomeCookie) {
 		return getEnderecoDestino().getCookie(nomeCookie).getValue();
-	}
-
-	/**
-	 * Adiciona um cabeçalho Http personalizado na Rquisição
-	 * 
-	 * @param nomeCabecalho  nome do cabeçalho Http
-	 * @param valorCabecalho  valor do cabeçalho
-	 */
-	public void adicionarCabecalhoHttp(String nomeCabecalho, String valorCabecalho) {
-		CabecalhoHttp cabecalho = new CabecalhoHttp(nomeCabecalho, valorCabecalho);
-		String mensagem = "Incluiu um cabeçalho na requisição [%s]";
-		Log.registrarInformacao(String.format(mensagem, cabecalho.toString()));
-		this.cabecalhosHttp.add(cabecalho);
-	}
-
-	/**
-	 * Adiciona um cabeçalho Http personalizado com User-Agent na Rquisição
-	 * 
-	 * @param valorCabecalho  valor do cabeçalho User-Agent
-	 */
-	public void adicionarUserAgent(String valor) {
-		adicionarCabecalhoHttp("User-Agent", valor);
-	}
-
-	/**
-	 * Em caso de redirecionamento, retorna o endereço de origem da Requisição 
-	 */
-	public EnderecoHttp getEnderecoOrigem() {
-		return redirecionamentos != null ? redirecionamentos.get(0) : null;
-	}
-
-	/**
-	 * Retorna o endereço de destino da Requisição 
-	 */
-	public EnderecoHttp getEnderecoDestino() {
-		return (redirecionamentos != null && redirecionamentos.size() > 0) ? redirecionamentos.get(redirecionamentos.size() - 1) : null;
-	}
-
-	/**
-	 * Em caso de redirecionamento, retorna a lista dos endereços envolvidos na Requisição Http 
-	 */
-	public List<EnderecoHttp> getRedirecionamentos() {
-		return redirecionamentos;
-	}
-
-	/**
-	 * Verifica se houve redirecionamento na Requisição Http 
-	 * @return      verdadeiro ou falso;
-	 */
-	public boolean houveRedirecionamento() {
-		return redirecionamentos.size() > 1;
-	}
-
-	/**
-	 * Retorna o conteudo do endereço de destino da Requisição 
-	 */
-	public String corpoResposta() {
-		return corpoResposta;
-	}
-
-	/**
-	 * Extrai informações do conteudo da requisição de acordo com Expressão Regular
-	 * @return      String com o resultado da extração 
-	 */
-	public String extrairConteudoCorpoResposta(String regexExtracao) {
-		return UtilitarioTexto.extrair(corpoResposta(), regexExtracao);
 	}
 
 }

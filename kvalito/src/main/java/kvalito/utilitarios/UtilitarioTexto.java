@@ -9,22 +9,6 @@ import java.util.regex.Pattern;
 public class UtilitarioTexto {
 
 	/**
-	 * Extrai informações de um conteudo de acordo com uma Expressão Regular especificada
-	 * 
-	 * @param texto  String com informações a serem extraídas
-	 * @param regexExtracao  Padrão Regex utilizado 
-	 * @return      String com o resultado da extração
-	 */
-	public static String extrair(String texto, String regexExtracao) {
-		Pattern pattern = Pattern.compile(regexExtracao);
-		Matcher matcher = pattern.matcher(texto);
-		if (matcher.find()) {
-			return matcher.group(1);
-		}
-		return null;
-	}
-
-	/**
 	 * Grava informações em um arquivo
 	 * 
 	 * @param caminhoArquivo  Local de armazenamento do arquivo
@@ -39,6 +23,22 @@ public class UtilitarioTexto {
 		writer.close();
 		
 		
+	}
+
+	/**
+	 * Extrai informações de um conteudo de acordo com uma Expressão Regular especificada
+	 * 
+	 * @param texto  String com informações a serem extraídas
+	 * @param regexExtracao  Padrão Regex utilizado 
+	 * @return      String com o resultado da extração
+	 */
+	public static String extrair(String texto, String regexExtracao) {
+		Pattern pattern = Pattern.compile(regexExtracao);
+		Matcher matcher = pattern.matcher(texto);
+		if (matcher.find()) {
+			return matcher.group(1);
+		}
+		return null;
 	}
 	
 	

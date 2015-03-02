@@ -31,6 +31,20 @@ public abstract class ElementoCore {
 	}
 
 	/**
+	 * Aguarda até que o elemento esteja invisível na tela. <br>
+	 * <i>Tempo configurado na chave "tempo-esperava-elemento-invisivel" </i>
+	 * 
+	 */
+	public boolean aguardarAteQueEstejaInvisivel() {
+		try {
+			Navegador.aguardarAteQueEstejaInvisivel(elemento);
+			return !elemento.isDisplayed();
+		} catch (Exception ex) {
+			return false;
+		}
+	}
+
+	/**
 	 * Aguarda até que o elemento esteja visível na tela. <br>
 	 * <i>Tempo configurado na chave "tempo-esperava-elemento-visivel" </i>
 	 * 
@@ -39,15 +53,6 @@ public abstract class ElementoCore {
 		try {
 			Navegador.aguardarAteQueEstejaVisivel(elemento);
 			return elemento.isDisplayed();
-		} catch (Exception ex) {
-			return false;
-		}
-	}
-	
-	public boolean aguardarAteQueEstejaInvisivel() {
-		try {
-			Navegador.aguardarAteQueEstejaInvisivel(elemento);
-			return !elemento.isDisplayed();
 		} catch (Exception ex) {
 			return false;
 		}
