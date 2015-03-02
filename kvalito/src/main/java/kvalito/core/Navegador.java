@@ -164,7 +164,7 @@ public class Navegador {
 	 * default é Firefox</i>
 	 * 
 	 * @param navegadorUtilizado
-	 */	
+	 */
 	public static void executarTesteNo(NavegadorUtilizado navegador) {
 		navegadorUtilizado = navegador;
 	}
@@ -384,6 +384,7 @@ public class Navegador {
 
 	public static void preencherSimulandoDigitacao(String texto) throws AWTException {
 		Robot robo = new Robot();
+		Log.registrarDebug(String.format("Preenchendo com texto utilizando o Robot [%s]", texto));
 		for (int i = 0; i < texto.length(); i++) {
 			robo.keyPress(KeyEvent.VK_ALT);
 			int codigoChar = texto.charAt(i);

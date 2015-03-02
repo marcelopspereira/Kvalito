@@ -4,15 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-
-
-
-
-
-
-
-
-
 import java.util.List;
 
 import kvalito.componentes.Elemento;
@@ -41,37 +32,38 @@ public class TestesChromeDriver extends Pagina {
 	public void finalizarTeste() throws Exception {
 		fechar();
 	}
-	
+
 	@Test
-	public void preencherComCaracteresAleatorios() throws Exception{
+	public void preencherComCaracteresAleatorios() throws Exception {
 		Elemento elemento = localizarElemento("caixa-texto");
 		String textoEsperado = elemento.preencherComCaracteresAleatorios(10);
 		assertEquals(textoEsperado, elemento.valorAtributo("value"));
 	}
-	
+
 	@Test
-	public void preencherSimulandoDigitacao() throws Exception{
+	public void preencherSimulandoDigitacao() throws Exception {
 		Elemento elemento = localizarElemento("caixa-texto");
-		elemento.preencherSimulandoDigitacao("Olá Mundo!");
+		String texto = "Olá Mundo! #Á@ç?$%";
+		elemento.preencherSimulandoDigitacao(texto);
 		elemento.aguardarAteQueAtributoEstejaPreenchido("value");
-		assertEquals("Olá Mundo!", elemento.valor());
+		assertEquals(texto, elemento.valor());
 	}
-	
+
 	@Test
-	public void obterValorDeAtributoCss() throws Exception{
-		Elemento elemento = localizarElemento("elemento-destino"); 
+	public void obterValorDeAtributoCss() throws Exception {
+		Elemento elemento = localizarElemento("elemento-destino");
 		String nomeDoAtributo = "width";
 		String valorAtributo = elemento.valorAtributoCss(nomeDoAtributo);
 		assertEquals("100px", valorAtributo);
 	}
-	
+
 	@Test
 	public void listarElementosComUmLocalizador() throws Exception {
-		List<Elemento> listaDeElementos = super.localizarElementos("xpath","//*[@id='todos-find-elements-by']/p");
+		List<Elemento> listaDeElementos = super.localizarElementos("xpath", "//*[@id='todos-find-elements-by']/p");
 		int numeroDeElementos = 6;
-		assertEquals(numeroDeElementos , listaDeElementos.size());
+		assertEquals(numeroDeElementos, listaDeElementos.size());
 	}
-	
+
 	@Test
 	public void naoListarElementosQuandoLocalizadorNaoExistir() throws Exception {
 		List<Elemento> listaDeElementos = super.localizarElementos("esse-localizador-nao-existe");

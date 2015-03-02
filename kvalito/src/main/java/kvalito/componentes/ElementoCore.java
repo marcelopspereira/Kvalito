@@ -195,7 +195,8 @@ public abstract class ElementoCore {
 	 * @throws Exception
 	 */
 	public void preencherSimulandoDigitacao(String texto) throws Exception {
-		this.clicar();
+		elemento.click();
+		Thread.sleep(1000);
 		Navegador.preencherSimulandoDigitacao(texto);
 	}
 
