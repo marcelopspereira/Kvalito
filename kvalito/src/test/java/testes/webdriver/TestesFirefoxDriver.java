@@ -34,10 +34,10 @@ public class TestesFirefoxDriver extends Pagina {
 	}
 
 	@Test
-	public void preencherSimulandoDigitacao() throws Exception {
+	public void preencherSimulandoDigitacao() throws Exception{
 		Elemento elemento = localizarElemento("caixa-texto");
 		elemento.preencherSimulandoDigitacao("Olá Mundo!");
-		esperarCarregamentoPor(2000);
+		elemento.aguardarAteQueAtributoEstejaPreenchido("value");
 		assertEquals("Olá Mundo!", elemento.valor());
 	}
 
