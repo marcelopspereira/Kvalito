@@ -53,6 +53,12 @@
 		<div id="esperar-visibilidade-div-que-aparecera"
 			style="display: none; background-color: red;">Apareceu!</div>
 	</div>
+	
+	<div id="esperar-invisibilidade" class="box">
+		<button id="esperar-invisibilidade-button">Clique aqui e espere</button>
+		<div id="esperar-invisibilidade-div-que-desaparecera"
+			style="background-color: green;">Está visível!</div>
+	</div>
 
 	<div id="esperar-visibilidade-div-dinamico" class="box">
 		<button id="esperar-visibilidade-div-dinamico-button">Clique
@@ -98,6 +104,12 @@
 		$("#esperar-visibilidade-button").click(function() {
 			setTimeout(function() {
 				$("#esperar-visibilidade-div-que-aparecera").show();
+			}, 2000);
+		});
+		
+		$("#esperar-invisibilidade-button").click(function() {
+			setTimeout(function() {
+				$("#esperar-invisibilidade-div-que-desaparecera").hide();
 			}, 2000);
 		});
 

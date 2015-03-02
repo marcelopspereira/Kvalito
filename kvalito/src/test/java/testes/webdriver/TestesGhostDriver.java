@@ -37,6 +37,13 @@ public class TestesGhostDriver extends Pagina {
 	
 	
 	@Test
+	public void preencherSimulandoDigitacao() throws Exception{
+		Elemento elemento = localizarElemento("caixa-texto");
+		elemento.preencherSimulandoDigitacao("Olá Mundo!");
+		assertEquals("Olá Mundo!", elemento.valorAtributo("value"));
+	}
+	
+	@Test
 	public void preencherComCaracteresAleatorios() throws Exception{
 		Elemento elemento = localizarElemento("caixa-texto");
 		String textoEsperado = elemento.preencherComCaracteresAleatorios(10);

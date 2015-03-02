@@ -43,6 +43,15 @@ public abstract class ElementoCore {
 			return false;
 		}
 	}
+	
+	public boolean aguardarAteQueEstejaInvisivel() {
+		try {
+			Navegador.aguardarAteQueEstejaInvisivel(elemento);
+			return !elemento.isDisplayed();
+		} catch (Exception ex) {
+			return false;
+		}
+	}
 
 	/**
 	 * Altera um atributo do elemento no código HTML.
@@ -169,6 +178,20 @@ public abstract class ElementoCore {
 	 */
 	public void preencherJanelaDialogoCaminhoArquivoCom(String caminhoArquivo) throws AWTException, InterruptedException {
 		Navegador.preencherJanelaDialogoCaminhoArquivoCom(caminhoArquivo);
+	}
+
+	/**
+	 * Preenche o elemento simulando a digitação pelo teclado. <br>
+	 * Utilizar esse método para preenchimento de elementos tipo <i>textarea</i>
+	 * ou <i>fake inputs</i>. <br>
+	 * 
+	 * @param texto
+	 *            Texto a ser digitado.
+	 * @throws Exception
+	 */
+	public void preencherSimulandoDigitacao(String texto) throws Exception {
+		this.clicar();
+		Navegador.preencherSimulandoDigitacao(texto);
 	}
 
 	/**

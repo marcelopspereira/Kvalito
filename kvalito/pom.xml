@@ -172,6 +172,23 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<id>infotomqa1</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.10</version>
+						<configuration>
+							<systemPropertyVariables>
+								<configuracoes-pagina-utlizada>ConfiguracoesPagina-infotomqa1.properties</configuracoes-pagina-utlizada>
+							</systemPropertyVariables>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 
 	<pluginRepositories>

@@ -50,6 +50,13 @@ public class TestesChromeDriver extends Pagina {
 	}
 	
 	@Test
+	public void preencherSimulandoDigitacao() throws Exception{
+		Elemento elemento = localizarElemento("caixa-texto");
+		elemento.preencherSimulandoDigitacao("Olá Mundo!");
+		assertEquals("Olá Mundo!", elemento.valorAtributo("value"));
+	}
+	
+	@Test
 	public void obterValorDeAtributoCss() throws Exception{
 		Elemento elemento = localizarElemento("elemento-destino"); 
 		String nomeDoAtributo = "width";
@@ -197,6 +204,16 @@ public class TestesChromeDriver extends Pagina {
 		assertFalse(divQueSeraExibido.estaVisivel());
 		buttonLigaDiv.clicar();
 		assertTrue(divQueSeraExibido.aguardarAteQueEstejaVisivel());
+	}
+	
+	@Test
+	public void esperarElementoDesaparecer() throws Exception {
+		Elemento buttonDesligaDiv = localizarElemento("esperar-invisibilidade-button");
+		Elemento divQueSeraOcultado = localizarElemento("esperar-invisibilidade-div-que-desaparecera");
+
+		assertTrue(divQueSeraOcultado.estaVisivel());
+		buttonDesligaDiv.clicar();
+		assertTrue(divQueSeraOcultado.aguardarAteQueEstejaInvisivel());
 	}
 	
 	@Test

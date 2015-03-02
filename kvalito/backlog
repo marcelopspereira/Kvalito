@@ -5,16 +5,15 @@ obterCaminhoRelativo(arquivo) - OK
 
 browser default - OK
 
+digitar com robot(input textarea) - OK
+
+esperar elemento ficar invisivel - OK
+
 ---- WIP
 
 Formatação de Datas e DatePicker
 
 ***Ghost Driver
-digitar com robot(input textarea)
-
-esperar elemento ficar invisivel
-
-Retorna valor numerico(conteudo)
 
 Gerador de código único(UUID)
 

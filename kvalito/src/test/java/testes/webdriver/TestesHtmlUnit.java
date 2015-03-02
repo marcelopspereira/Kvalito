@@ -29,6 +29,7 @@ public class TestesHtmlUnit extends Pagina {
 		fechar();
 	}
 	
+	
 	@Test
 	public void preencherComCaracteresAleatorios() throws Exception{
 		Elemento elemento = localizarElemento("caixa-texto");
