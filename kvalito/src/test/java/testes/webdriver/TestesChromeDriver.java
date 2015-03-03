@@ -20,8 +20,7 @@ import org.junit.Test;
 import org.openqa.selenium.Point;
 
 public class TestesChromeDriver extends Pagina {
-	@Rule
-	public RegraTratamentoFalhas regra = new RegraTratamentoFalhas();
+
 	private String urlPagina;
 
 	@Before
