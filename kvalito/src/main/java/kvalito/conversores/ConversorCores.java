@@ -3,61 +3,63 @@ package kvalito.conversores;
 import java.security.InvalidParameterException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.support.Color;
 
 public class ConversorCores {
 
 	/**
-	 * Converte o uma String com o valor RGB para Hexadecimal.
+	 * Encapsula funções da biblioteca org.openqa.selenium.support.Color para \n
+	 * converter o uma cor para Hexadecimal.
 	 * 
-	 * @param corRgb
+	 * @param cor
 	 * @return
 	 * @throws InvalidParameterException
-	 *             , NumberFormatException
 	 */
-	public static String converterRgbParaHexadecimal(String corRgb) throws InvalidParameterException {
+	public static String converterParaHexadecimal(String cor) throws InvalidParameterException {
 
-		if (StringUtils.isBlank(corRgb)) {
-			throw new InvalidParameterException("Favor informar a cor RGB! Exemplo: rgb(0,0,0)");
+		if (StringUtils.isBlank(cor)) {
+			throw new InvalidParameterException("Favor informar uma cor válida!");
 		}
 
-		corRgb = corRgb.trim();
-		corRgb = corRgb.replaceAll("(rgba)|(rgb)|(\\()|(\\s)|(\\))", "");
-
-		String rgb[] = corRgb.split(",");
-
-		if (rgb.length > 3) {
-			throw new InvalidParameterException("Cor RGB invalida!");
-		}
-
-		String hexadecimal = "#";
-		for (String cor : rgb) {
-
-			hexadecimal += extrairHexadecimal(Integer.parseInt(cor));
-
-		}
-
-		return hexadecimal;
+		return Color.fromString(cor).asHex();
 
 	}
 
 	/**
-	 * Extrai o valor Hexadecimal de um numero RGB (0-255).
+	 * Encapsula funções da biblioteca org.openqa.selenium.support.Color para \n
+	 * converter o uma cor para RGB.
 	 * 
-	 * @param numero
+	 * @param cor
 	 * @return
 	 * @throws InvalidParameterException
-	 *             , NumberFormatException
 	 */
-	private static String extrairHexadecimal(int numero) {
+	public static String converterParaRgb(String cor) throws InvalidParameterException {
 
-		String codigoHexadecimal = Integer.toHexString(numero & 0xff);
-		StringBuilder builder = new StringBuilder(codigoHexadecimal);
-
-		while (builder.length() < 2) {
-			builder.append("0");
+		if (StringUtils.isBlank(cor)) {
+			throw new InvalidParameterException("Favor informar uma cor válida!");
 		}
 
-		return builder.toString().toUpperCase();
+		return Color.fromString(cor).asRgb();
+
+	}
+	
+	
+	/**
+	 * Encapsula funções da biblioteca org.openqa.selenium.support.Color para \n
+	 * converter o uma cor para RGBA
+	 * 
+	 * @param cor
+	 * @return
+	 * @throws InvalidParameterException
+	 */
+	public static String converterParaRgba(String cor) throws InvalidParameterException {
+
+		if (StringUtils.isBlank(cor)) {
+			throw new InvalidParameterException("Favor informar uma cor válida!");
+		}
+		
+		return Color.fromString(cor).asRgba();
+
 	}
 
 }
