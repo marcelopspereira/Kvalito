@@ -7,6 +7,7 @@ import kvalito.core.Log;
 import kvalito.core.Navegador;
 
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public abstract class ElementoCore {
@@ -110,8 +111,6 @@ public abstract class ElementoCore {
 		Log.registrarInformacao(String.format("O elemento [%s] será clicado.", elemento.getTagName()));
 
 		elemento.click();
-
-		Log.registrarInformacao(String.format(" - Url atual: [%s]", Navegador.getUrlAtual()));
 	}
 
 	/**

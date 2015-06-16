@@ -11,11 +11,8 @@ import kvalito.componentes.Select;
 import kvalito.core.Configuracoes;
 import kvalito.core.NavegadorUtilizado;
 import kvalito.core.Pagina;
-import kvalito.junit.RegraTratamentoFalhas;
-
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.Point;
 
@@ -300,4 +297,25 @@ public class TestesChromeDriver extends Pagina {
 		selectEstado.selecionarPorTexto("São Paulo");
 		selectCidade.selecionarPorTexto("São Paulo");
 	}
+	
+	@Test
+	public void verificarMensagemAlerta() throws Exception {
+		Elemento botao = localizarElemento("alert-lancar");
+		botao.clicar();
+		
+		String mensagemAlerta = obterTextoAlerta();			
+		String mensagemEsperada = "Exibiu alerta";
+		assertEquals(mensagemEsperada, mensagemAlerta);
+		
+		aceitarAlerta();
+	}
+	
+	@Test
+	public void adicionarCookie() throws Exception{
+		injetarCookie("teste","123");
+		String valorEsperado = "123";
+		String valorRecebido = valorCookie("teste");
+		assertEquals(valorEsperado,valorRecebido);
+	}
+	
 }

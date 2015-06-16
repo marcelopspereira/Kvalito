@@ -327,4 +327,24 @@ public class TestesFirefoxDriver extends Pagina {
 		selectEstado.selecionarPorIndice(2);
 		selectCidade.selecionarPorIndice(2);
 	}
+	
+	@Test
+	public void verificarMensagemAlerta() throws Exception {
+		Elemento botao = localizarElemento("alert-lancar");
+		botao.clicar();
+		
+		String mensagemAlerta = obterTextoAlerta();			
+		String mensagemEsperada = "Exibiu alerta";
+		assertEquals(mensagemEsperada, mensagemAlerta);
+		
+		aceitarAlerta();
+	}
+	
+	@Test
+	public void adicionarCookie() throws Exception{
+		injetarCookie("teste","123");
+		String valorEsperado = "123";
+		String valorRecebido = valorCookie("teste");
+		assertEquals(valorEsperado,valorRecebido);
+	}
 }
