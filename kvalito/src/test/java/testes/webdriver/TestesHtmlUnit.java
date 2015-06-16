@@ -42,6 +42,7 @@ public class TestesHtmlUnit extends Pagina {
 		List<Elemento> listaDeElementos = super.localizarElementos("xpath","//*[@id='todos-find-elements-by']/p");
 		int numeroDeElementos = 6;
 		assertEquals(numeroDeElementos , listaDeElementos.size());
+//		https://lh5.googleusercontent.com/-IuSHjaTQHK0/AAAAAAAAAAI/AAAAAAAAAE0/jsW9vT-SpM8/s46-c-k-no/photo.jpg
 	}
 	
 	@Test
