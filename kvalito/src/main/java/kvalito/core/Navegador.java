@@ -41,8 +41,7 @@ public class Navegador {
 		long tempoInicial = System.currentTimeMillis();
 		getDriver().get(url);
 		long tempoFinal = System.currentTimeMillis() - tempoInicial;
-		Log.registrarInformacao(" - Tempo de carregamento: " + tempoFinal
-				+ "ms");
+		Log.registrarInformacao(String.format("Tempo de carregamento da url [Tempo: %sms | Url: %s]", tempoFinal, url));
 	}
 
 	public static void aguardarAteQueAtributoEstejaPreenchido(
