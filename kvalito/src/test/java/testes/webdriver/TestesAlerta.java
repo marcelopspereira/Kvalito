@@ -8,6 +8,7 @@ import kvalito.core.Pagina;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestesAlerta extends Pagina {
@@ -15,8 +16,8 @@ public class TestesAlerta extends Pagina {
 
 	@Before
 	public void iniciarTestes() throws Exception {
-//		executarTesteNo(NavegadorUtilizado.CHROME);
-		executarTesteNo(NavegadorUtilizado.FIREFOX);
+		executarTesteNo(NavegadorUtilizado.CHROME);
+//		executarTesteNo(NavegadorUtilizado.FIREFOX);
 		urlPagina = Configuracoes.getConfiguracaoPagina("pagina-app-web-qatestengine");
 		abrirUrl(urlPagina);
 	}
@@ -26,6 +27,7 @@ public class TestesAlerta extends Pagina {
 		fechar();
 	}
 	
+	@Ignore
 	@Test
 	public void verificarMensagemAlerta() throws Exception {
 		Elemento botao = localizarElemento("alert-lancar");
