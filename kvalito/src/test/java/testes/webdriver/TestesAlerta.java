@@ -15,7 +15,8 @@ public class TestesAlerta extends Pagina {
 
 	@Before
 	public void iniciarTestes() throws Exception {
-		executarTesteNo(NavegadorUtilizado.CHROME);
+//		executarTesteNo(NavegadorUtilizado.CHROME);
+		executarTesteNo(NavegadorUtilizado.FIREFOX);
 		urlPagina = Configuracoes.getConfiguracaoPagina("pagina-app-web-qatestengine");
 		abrirUrl(urlPagina);
 	}
