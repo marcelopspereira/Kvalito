@@ -27,7 +27,6 @@ public class TestesAlerta extends Pagina {
 		fechar();
 	}
 	
-	@Ignore
 	@Test
 	public void verificarMensagemAlerta() throws Exception {
 		Elemento botao = localizarElemento("alert-lancar");
