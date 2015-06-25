@@ -11,12 +11,12 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class TestesAlertaChrome extends Pagina {
+public class TestesAlertaFirefox extends Pagina {
 	private String urlPagina;
 
 	@Before
 	public void iniciarTestes() throws Exception {
-		executarTesteNo(NavegadorUtilizado.CHROME);
+		executarTesteNo(NavegadorUtilizado.FIREFOX);
 		urlPagina = Configuracoes.getConfiguracaoPagina("pagina-app-web-qatestengine");
 		abrirUrl(urlPagina);
 	}
@@ -25,7 +25,7 @@ public class TestesAlertaChrome extends Pagina {
 	public void finalizarTeste() throws Exception {
 		fechar();
 	}
-	
+
 	@Test
 	public void verificarMensagemAlerta() throws Exception {
 		Elemento botao = localizarElemento("alert-lancar");
