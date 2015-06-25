@@ -285,18 +285,6 @@ public class TestesChromeDriver extends Pagina {
 		divPassarMousePorCima.passarMouseSobre();
 		assertTrue(divQueSeraExibido.estaVisivel());
 	}
-
-	@Test
-	public void naoGerarErroEmUmaSituacaoQueLancaStaleException() throws Exception {
-		Select selectEstado = localizarSelect("stale-element-estado");
-		selectEstado.selecionarPorTexto("Rio de Janeiro");
-
-		Select selectCidade = localizarSelect("stale-element-cidade");
-		selectCidade.selecionarPorTexto("Rio de Janeiro");
-
-		selectEstado.selecionarPorTexto("São Paulo");
-		selectCidade.selecionarPorTexto("São Paulo");
-	}
 	
 	@Test
 	public void verificarMensagemAlerta() throws Exception {
@@ -308,6 +296,18 @@ public class TestesChromeDriver extends Pagina {
 		assertEquals(mensagemEsperada, mensagemAlerta);
 		
 		aceitarAlerta();
+	}
+
+	@Test
+	public void naoGerarErroEmUmaSituacaoQueLancaStaleException() throws Exception {
+		Select selectEstado = localizarSelect("stale-element-estado");
+		selectEstado.selecionarPorTexto("Rio de Janeiro");
+
+		Select selectCidade = localizarSelect("stale-element-cidade");
+		selectCidade.selecionarPorTexto("Rio de Janeiro");
+
+		selectEstado.selecionarPorTexto("São Paulo");
+		selectCidade.selecionarPorTexto("São Paulo");
 	}
 	
 	@Test

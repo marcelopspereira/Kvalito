@@ -8,16 +8,14 @@ import kvalito.core.Pagina;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-public class TestesAlerta extends Pagina {
+public class TestesAlertaChrome extends Pagina {
 	private String urlPagina;
 
 	@Before
 	public void iniciarTestes() throws Exception {
 		executarTesteNo(NavegadorUtilizado.CHROME);
-//		executarTesteNo(NavegadorUtilizado.FIREFOX);
 		urlPagina = Configuracoes.getConfiguracaoPagina("pagina-app-web-qatestengine");
 		abrirUrl(urlPagina);
 	}
