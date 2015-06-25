@@ -289,6 +289,7 @@ public class TestesChromeDriver extends Pagina {
 	@Test
 	public void verificarMensagemAlerta() throws Exception {
 		Elemento botao = localizarElemento("alert-lancar");
+		botao.aguardarAteQueEstejaVisivel();
 		botao.clicar();
 		
 		String mensagemAlerta = obterTextoAlerta();			
