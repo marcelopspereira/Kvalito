@@ -25,7 +25,8 @@ public class TestesAlertaFirefox extends Pagina {
 	public void finalizarTeste() throws Exception {
 		fechar();
 	}
-
+	
+	@Ignore
 	@Test
 	public void verificarMensagemAlerta() throws Exception {
 		Elemento botao = localizarElemento("alert-lancar");
