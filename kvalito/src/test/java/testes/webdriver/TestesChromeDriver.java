@@ -46,6 +46,7 @@ public class TestesChromeDriver extends Pagina {
 		Elemento elemento = localizarElemento("caixa-texto");
 		String texto = "Olá Mundo! #Á@ç?$%";
 		elemento.preencherSimulandoDigitacao(texto);
+		esperarCarregamentoPor(5000);
 		elemento.aguardarAteQueAtributoEstejaPreenchido("value");
 		assertEquals(texto, elemento.valor());
 	}
