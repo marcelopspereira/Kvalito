@@ -11,8 +11,10 @@ import kvalito.componentes.Select;
 import kvalito.core.Configuracoes;
 import kvalito.core.NavegadorUtilizado;
 import kvalito.core.Pagina;
+
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.Point;
 
@@ -288,16 +290,12 @@ public class TestesChromeDriver extends Pagina {
 	
 	@Test
 	public void verificarMensagemAlerta() throws Exception {
-	    	esperarCarregamentoPor(5000);
 		Elemento botao = localizarElemento("alert-lancar");
-		botao.aguardarAteQueEstejaVisivel();
 		botao.clicar();
 		
 		String mensagemAlerta = obterTextoAlerta();			
 		String mensagemEsperada = "Exibiu alerta";
 		assertEquals(mensagemEsperada, mensagemAlerta);
-		
-		aceitarAlerta();
 	}
 
 	@Test
