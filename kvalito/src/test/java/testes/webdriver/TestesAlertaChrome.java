@@ -45,9 +45,8 @@ public class TestesAlertaChrome extends Pagina {
 
     @Test
     public void preencherSimulandoDigitacao() throws Exception {
-	Elemento elemento = localizarElemento("caixa-texto");
+	Elemento elemento = localizarElemento("id","caixa-texto");
 	String texto = "Olá Mundo! #Á@ç?$%";
-	elemento.selecionar();
 	elemento.preencherSimulandoDigitacao(texto);
 	esperarCarregamentoPor(5000);
 	elemento.aguardarAteQueAtributoEstejaPreenchido("value");
