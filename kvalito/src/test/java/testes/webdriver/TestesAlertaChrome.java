@@ -48,7 +48,7 @@ public class TestesAlertaChrome extends Pagina {
 	Elemento elemento = localizarElemento("caixa-texto");
 	String texto = "Olá Mundo! #Á@ç?$%";
 	elemento.preencherSimulandoDigitacao(texto);
-	esperarCarregamentoPor(5000);
+	esperarCarregamentoPor(10000);
 	elemento.aguardarAteQueAtributoEstejaPreenchido("value");
 	assertEquals(texto, elemento.valor());
     }
