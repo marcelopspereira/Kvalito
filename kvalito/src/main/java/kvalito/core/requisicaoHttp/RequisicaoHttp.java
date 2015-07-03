@@ -27,7 +27,6 @@ public class RequisicaoHttp {
 	 * Cria uma nova requisição HTTP para um determinado endereco
 	 * 
 	 * @param url  URL do Endereço Http
-	 * @return      nova instância de RequisicaoHttp.
 	 */
 	public RequisicaoHttp(String url) {
 		this.url = url;
@@ -53,7 +52,7 @@ public class RequisicaoHttp {
 	/**
 	 * Adiciona um cabeçalho Http personalizado com User-Agent na Rquisição
 	 * 
-	 * @param valorCabecalho  valor do cabeçalho User-Agent
+	 * @param valor  valor do cabeçalho User-Agent
 	 */
 	public void adicionarUserAgent(String valor) {
 		adicionarCabecalhoHttp("User-Agent", valor);
@@ -85,8 +84,6 @@ public class RequisicaoHttp {
 	/**
 	 * Processa a requisição HTTP
 	 * 
-	 * @param url  URL do Endereço Http
-	 * @return      nova instância de RequisicaoHttp.
 	 * @throws IOException
 	 */
 	public void executar() throws IOException {

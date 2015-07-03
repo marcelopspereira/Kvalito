@@ -187,10 +187,10 @@ public class Navegador {
 	}
 
 	/**
-	 * Define qual navegador será utilizado para executar os testes. </i>Obs.: O
-	 * default é Firefox</i>
+	 * Define qual navegador será utilizado para executar os testes. Obs.: O
+	 * default é Firefox
 	 * 
-	 * @param navegadorUtilizado
+	 * @param navegador
 	 */
 	public static void executarTesteNo(NavegadorUtilizado navegador) {
 		navegadorUtilizado = navegador;

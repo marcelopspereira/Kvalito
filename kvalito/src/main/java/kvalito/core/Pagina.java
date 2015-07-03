@@ -162,7 +162,6 @@ public abstract class Pagina {
 	 * @param expressaoLocalizacao
 	 *            Localizador do elemento.
 	 * @return true Se o elemento existir.
-	 * @throws Exception
 	 */
 	public boolean existeElemento(String expressaoLocalizacao) {
 
@@ -189,7 +188,6 @@ public abstract class Pagina {
 	 * @param expressaoLocalizacao
 	 *            Localizador do elemento.
 	 * @return true Se o elemento existir.
-	 * @throws Exception
 	 */
 	public boolean existeElemento(String localizarPor, String expressaoLocalizacao) {
 		Localizador localizadorDoElemento = new Localizador(localizarPor, expressaoLocalizacao);
@@ -421,7 +419,6 @@ public abstract class Pagina {
 	 * Deve ser utilizado depois de ter navegado para um IFrame
 	 * (método:usarIFrame) <br>
 	 * 
-	 * @throws Exception
 	 */
 	public void voltarParaFramePrincipal() {
 		Navegador.voltarParaFramePrincipal();
