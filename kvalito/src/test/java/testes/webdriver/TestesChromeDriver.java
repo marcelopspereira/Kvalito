@@ -298,9 +298,7 @@ public class TestesChromeDriver extends Pagina {
 	assertEquals(mensagemEsperada, mensagemAlerta);
 
 	esperarCarregamentoPor(2000);
-
 	aceitarAlerta();
-
 	esperarCarregamentoPor(3000);
     }
 
