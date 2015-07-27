@@ -1,3 +1,4 @@
 /target/
-/kvalito-3.0.0.pom.asc
-/pom.xml.asc
+/.classpath
+/.project
+/Kvalito.log
