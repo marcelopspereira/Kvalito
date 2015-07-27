@@ -18,7 +18,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.Point;
 
-@Ignore
+//@Ignore
 public class TestesGhostDriver extends Pagina {
 
 	private String urlPagina;
