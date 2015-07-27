@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss} [KVALITO] %-5level - %msg%n" />
+		</Console>
+		<File name="Log" fileName="Kvalito.log">
+			<PatternLayout
+				pattern="%d{dd-MM-yyyy HH:mm:ss} [KVALITO] %-5level - %msg%n" />
+		</File>
+
+	</Appenders>
+	<Loggers>
+		
+		<Root level="debug">
+			<AppenderRef ref="Console" level="debug"/>
+			<AppenderRef ref="Log" level="debug" />
+		</Root>
+	</Loggers>
+</Configuration>
