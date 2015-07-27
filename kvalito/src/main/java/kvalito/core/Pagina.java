@@ -162,7 +162,6 @@ public abstract class Pagina {
 	 * @param expressaoLocalizacao
 	 *            Localizador do elemento.
 	 * @return true Se o elemento existir.
-	 * @throws Exception
 	 */
 	public boolean existeElemento(String expressaoLocalizacao) {
 
@@ -189,7 +188,6 @@ public abstract class Pagina {
 	 * @param expressaoLocalizacao
 	 *            Localizador do elemento.
 	 * @return true Se o elemento existir.
-	 * @throws Exception
 	 */
 	public boolean existeElemento(String localizarPor, String expressaoLocalizacao) {
 		Localizador localizadorDoElemento = new Localizador(localizarPor, expressaoLocalizacao);
@@ -230,6 +228,14 @@ public abstract class Pagina {
 		Log.registrarInformacao("PageObject utilizado: " + this.getClass().getSimpleName());
 		return Configuracoes.getUrlConfigurada(this.getClass().getSimpleName());
 	}
+	
+	/**
+	 * Inclui cookie nos cookies da página.<br>
+	 */
+	
+	public void injetarCookie(String nome, String valor){
+		Navegador.injetarCookie(nome, valor);
+	}
 
 	/**
 	 * Limpa os Cookies do navegador.<br>
@@ -237,6 +243,7 @@ public abstract class Pagina {
 	public void limparTodosOsCookies() {
 		Navegador.limparTodosCookies();
 	}
+	
 
 	/**
 	 * Localiza o elemento HTML para manipulação.<br>
@@ -352,6 +359,30 @@ public abstract class Pagina {
 	protected Select localizarSelect(String localizarPor, String expressaoLocalizacao) throws Exception {
 		return new Select(localizarPor, expressaoLocalizacao);
 	}
+	
+	/**
+	 * Retorna o texto exibido em um alerta.<br>
+	 *
+	 * @return Mensagem alerta
+	 * @throws Exception
+	 */
+	
+	public String obterTextoAlerta() throws Exception{
+		return Navegador.obterTextoAlerta();
+	}
+	
+	/**
+	 * Retorna os dados de um cookie.<br>
+	 * 
+	 * @param cookieId
+	 * 			ID do cookie
+	 * @return Dados do cookie
+	 * @throws Exception
+	 */
+	
+	public String valorCookie(String cookieId) throws Exception{
+		return Navegador.valorCookie(cookieId);
+	}
 
 	/**
 	 * Localiza o elemento Select para manipulação.<br>
@@ -363,6 +394,7 @@ public abstract class Pagina {
 	 *            Localizador do elemento.
 	 * @return Novo elemento Select.
 	 */
+	
 	protected Select Select(Localizador localizadorDoElemento) throws Exception {
 		return new Select(localizadorDoElemento);
 	}
@@ -387,7 +419,6 @@ public abstract class Pagina {
 	 * Deve ser utilizado depois de ter navegado para um IFrame
 	 * (método:usarIFrame) <br>
 	 * 
-	 * @throws Exception
 	 */
 	public void voltarParaFramePrincipal() {
 		Navegador.voltarParaFramePrincipal();

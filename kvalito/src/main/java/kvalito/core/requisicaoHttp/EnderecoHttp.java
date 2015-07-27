@@ -13,7 +13,6 @@ public class EnderecoHttp {
 	/**
 	 * Armazena informações de um endereço Http
 	 * 
-	 * @return      nova instância de um EnderecoHttp vazia
 	 */
 	public EnderecoHttp() {
 		this.url = "";
@@ -25,7 +24,6 @@ public class EnderecoHttp {
 	 * 
 	 * @param url  URL do Endereço Http
 	 * @param httpStatusCode Status Code do Endereço Http Ex.: 200, 404, 500
-	 * @return      nova instância de EnderecoHttp especificado
 	 */
 	public EnderecoHttp(String url, int httpStatusCode) {
 		this.url = url;
@@ -39,7 +37,6 @@ public class EnderecoHttp {
 	 * @param httpStatusCode Status Code do Endereço Http Ex.: 200, 404, 500
 	 * @param cookies lista de HttpCookies do endereço Http
 	 * @param body conteudo do endereço Http
-	 * @return      nova instância de EnderecoHttp especificado
 	 */
 	public EnderecoHttp(String url, int httpStatusCode, List<HttpCookie> cookies, String body) {
 		this.url = url;

@@ -10,7 +10,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class FabricaFirefoxDriver {
 	public static FirefoxDriver instanciar() throws Exception {
-		FirefoxDriver driverTemporario = new FirefoxDriver(recursosEspecificos());		
+		FirefoxDriver driverTemporario = new FirefoxDriver(recursosEspecificos());	
 		driverTemporario.manage().window().maximize();
 		return driverTemporario;
 	}
