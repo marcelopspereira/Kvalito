@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Properties;
 
 public class Configuracoes {
-	private static final String ARQUIVO_CONFIGURACOES_PRINCIPAL = "src/test/resources/ConfiguracoesTeste.properties";
+	public static final String ARQUIVO_CONFIGURACOES_PRINCIPAL = "src/test/resources/ConfiguracoesTeste.properties";
 	private static Properties propriedades;
 	private static Properties propriedadesPrincipais;
 	private static HashMap<String, String> mapaDeConfiguracoes;
