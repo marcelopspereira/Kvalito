@@ -56,6 +56,15 @@ public abstract class Pagina {
 	}
 
 	/**
+	 * Altera da janela atual para uma outra janela ou popup.<br>
+	 * 
+	 * @throws Exception
+	 */
+	public void alternarJanela() throws Exception {
+		Navegador.alternarJanela();
+	}
+
+	/**
 	 * Atualiza página.<br>
 	 * 
 	 * @throws Exception
@@ -228,12 +237,12 @@ public abstract class Pagina {
 		Log.registrarInformacao("PageObject utilizado: " + this.getClass().getSimpleName());
 		return Configuracoes.getUrlConfigurada(this.getClass().getSimpleName());
 	}
-	
+
 	/**
 	 * Inclui cookie nos cookies da página.<br>
 	 */
-	
-	public void injetarCookie(String nome, String valor){
+
+	public void injetarCookie(String nome, String valor) {
 		Navegador.injetarCookie(nome, valor);
 	}
 
@@ -243,7 +252,6 @@ public abstract class Pagina {
 	public void limparTodosOsCookies() {
 		Navegador.limparTodosCookies();
 	}
-	
 
 	/**
 	 * Localiza o elemento HTML para manipulação.<br>
@@ -359,29 +367,16 @@ public abstract class Pagina {
 	protected Select localizarSelect(String localizarPor, String expressaoLocalizacao) throws Exception {
 		return new Select(localizarPor, expressaoLocalizacao);
 	}
-	
+
 	/**
 	 * Retorna o texto exibido em um alerta.<br>
 	 *
 	 * @return Mensagem alerta
 	 * @throws Exception
 	 */
-	
-	public String obterTextoAlerta() throws Exception{
+
+	public String obterTextoAlerta() throws Exception {
 		return Navegador.obterTextoAlerta();
-	}
-	
-	/**
-	 * Retorna os dados de um cookie.<br>
-	 * 
-	 * @param cookieId
-	 * 			ID do cookie
-	 * @return Dados do cookie
-	 * @throws Exception
-	 */
-	
-	public String valorCookie(String cookieId) throws Exception{
-		return Navegador.valorCookie(cookieId);
 	}
 
 	/**
@@ -394,7 +389,7 @@ public abstract class Pagina {
 	 *            Localizador do elemento.
 	 * @return Novo elemento Select.
 	 */
-	
+
 	protected Select Select(Localizador localizadorDoElemento) throws Exception {
 		return new Select(localizadorDoElemento);
 	}
@@ -414,6 +409,19 @@ public abstract class Pagina {
 	}
 
 	/**
+	 * Retorna os dados de um cookie.<br>
+	 * 
+	 * @param cookieId
+	 *            ID do cookie
+	 * @return Dados do cookie
+	 * @throws Exception
+	 */
+
+	public String valorCookie(String cookieId) throws Exception {
+		return Navegador.valorCookie(cookieId);
+	}
+
+	/**
 	 * Permite que a localização seja feita no conteúdo principal (frame) da
 	 * página.<br>
 	 * Deve ser utilizado depois de ter navegado para um IFrame
@@ -422,6 +430,24 @@ public abstract class Pagina {
 	 */
 	public void voltarParaFramePrincipal() {
 		Navegador.voltarParaFramePrincipal();
+	}
+
+	/**
+	 * Volta para a janela principal.<br>
+	 * 
+	 * @throws Exception
+	 */
+	public void voltarParaJanelaPrincipal() throws Exception {
+		Navegador.voltarParaJanelaPrincipal();
+	}
+	
+	/**
+	 * Fecha a janela.
+	 * @throws Exception 
+	 */
+	
+	public void fecharJanela() throws Exception{
+		Navegador.fecharJanela();
 	}
 
 }
