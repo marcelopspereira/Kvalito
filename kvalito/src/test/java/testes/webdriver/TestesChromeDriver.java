@@ -30,7 +30,7 @@ public class TestesChromeDriver extends Pagina {
 
 	@After
 	public void finalizarTeste() throws Exception {
-		 fechar();
+		fechar();
 	}
 
 	@Test
@@ -316,7 +316,7 @@ public class TestesChromeDriver extends Pagina {
 	public void verificarMensagemAlerta() throws Exception {
 		Elemento botao = localizarElemento("alert-lancar");
 		botao.clicar();
-
+		esperarCarregamentoPor(2000);
 		String mensagemAlerta = obterTextoAlerta();
 		String mensagemEsperada = "Exibiu alerta";
 		assertEquals(mensagemEsperada, mensagemAlerta);
