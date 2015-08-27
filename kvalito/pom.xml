@@ -8,7 +8,7 @@
 
 	<groupId>br.com.infoglobo.kvalito</groupId>
 	<artifactId>kvalito</artifactId>
-	<version>3.2.0</version>
+	<version>3.3.0</version>
 	<packaging>jar</packaging>
 
 	<name>Kvalito</name>
@@ -27,6 +27,13 @@
 			<id>rbosisio</id>
 			<name>Rodrigo Bosisio</name>
 			<email>rodrigo.bosisio@infoglobo.com.br</email>
+			<organization>Infoglobo</organization>
+			<organizationUrl>https://github.com/Infoglobo</organizationUrl>
+		</developer>
+		<developer>
+			<id>apinto</id>
+			<name>Adriano Martins Pinto</name>
+			<email>adriano.pinto@infoglobo.com.br</email>
 			<organization>Infoglobo</organization>
 			<organizationUrl>https://github.com/Infoglobo</organizationUrl>
 		</developer>
@@ -74,7 +81,7 @@
 			<groupId>com.codeborne</groupId>
 			<artifactId>phantomjsdriver</artifactId>
 			<version>1.2.1</version>
-			<exclusions> 
+			<exclusions>
 				<exclusion>
 					<artifactId>selenium-java</artifactId>
 					<groupId>org.seleniumhq.selenium</groupId>
@@ -90,7 +97,14 @@
 			<artifactId>loremipsum</artifactId>
 			<version>1.0</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.9</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
@@ -228,18 +242,18 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	
-	    <distributionManagement>
-        <repository>
-            <id>deployment</id>
-            <name>Internal Releases</name>
-            <url>https://inforep01.ogmaster.local:8443/nexus/content/repositories/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>deployment</id>
-            <name>Internal Releases</name>
-            <url>https://inforep01.ogmaster.local:8443/nexus/content/repositories/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
+
+	<distributionManagement>
+		<repository>
+			<id>deployment</id>
+			<name>Internal Releases</name>
+			<url>https://inforep01.ogmaster.local:8443/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>deployment</id>
+			<name>Internal Releases</name>
+			<url>https://inforep01.ogmaster.local:8443/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 </project>
