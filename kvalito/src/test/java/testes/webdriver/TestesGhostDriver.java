@@ -269,17 +269,6 @@ public class TestesGhostDriver extends Pagina {
 		selectCidade.selecionarPorIndice(2);
 	}
 	
-	@Test
-	public void verificarMensagemAlerta() throws Exception {
-		Elemento botao = localizarElemento("alert-lancar");
-		botao.clicar();
-		
-		String mensagemAlerta = obterTextoAlerta();			
-		String mensagemEsperada = "Exibiu alerta";
-		assertEquals(mensagemEsperada, mensagemAlerta);
-		
-		aceitarAlerta();
-	}
 	
 	@Test
 	public void adicionarCookie() throws Exception{
