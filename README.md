@@ -28,3 +28,4 @@ A API encapsula o Selenium Webdriver, trazendo a programação para o português
   - Adriano Pinto
   - Guilherme Alegria
   - Leandro Miranda
+  - Yuri Luz
