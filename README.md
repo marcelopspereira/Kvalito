@@ -18,3 +18,13 @@ A API encapsula o Selenium Webdriver, trazendo a programação para o português
       - Preenchimento aleatorio;
       - Requisições HTTP;
       - Tratamento de Falhas;
+
+#Colaboradores
+
+  - Samanta Cecilia
+  - Renato Coutinho
+  - Rodrigo Bosisio
+  - Thiago de Castro
+  - Adriano Pinto
+  - Guilherme Alegria
+  - Leandro Miranda
