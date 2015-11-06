@@ -1,13 +1,18 @@
 package kvalito.core.requisicaoHttp;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.CookieStore;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +20,18 @@ import kvalito.core.Log;
 import kvalito.utilitarios.UtilitarioTexto;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+
 
 public class RequisicaoHttp {
 
 	private String url;
+	private String metodo;
+	private List<NameValuePair> parametros;
+	private String parametro;
+	private boolean unicoParametro;
 	private List<EnderecoHttp> redirecionamentos;
 	private List<CabecalhoHttp> cabecalhosHttp;
 	private String corpoResposta;
@@ -30,6 +43,10 @@ public class RequisicaoHttp {
 	 */
 	public RequisicaoHttp(String url) {
 		this.url = url;
+		this.metodo = "GET";
+		this.parametros = new ArrayList<NameValuePair>();
+		this.parametro = "";
+		this.unicoParametro = false;
 		this.redirecionamentos = new ArrayList<EnderecoHttp>();
 		this.cabecalhosHttp = new ArrayList<CabecalhoHttp>();
 		Log.registrarInformacao(String.format("Iniciando uma nova requisição HTTP [%s]", url));
@@ -91,7 +108,7 @@ public class RequisicaoHttp {
 		URL resourceUrl;
 		HttpURLConnection.setFollowRedirects(false);
 		HttpURLConnection connection;
-
+		
 		CookieManager cookieManager = new CookieManager();
 		cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
 		CookieHandler.setDefault(cookieManager);
@@ -104,9 +121,26 @@ public class RequisicaoHttp {
 			connection = (HttpURLConnection) resourceUrl.openConnection();
 			connection.setConnectTimeout(30000); //PADRAO 15000
 			connection.setReadTimeout(30000); //PADRAO 15000
-
+			connection.setRequestMethod(this.metodo);
+			
 			for (CabecalhoHttp cabecalho : this.cabecalhosHttp) {
 				connection.setRequestProperty(cabecalho.getNome(), cabecalho.getValor());
+			}
+			
+			if (this.metodo.equals("POST")) {
+				
+				connection.setDoInput(true);
+				connection.setDoOutput(true);
+				
+				OutputStream os = connection.getOutputStream();
+				BufferedWriter writer = new BufferedWriter(
+				        new OutputStreamWriter(os, "UTF-8"));
+				
+				writer.write(this.unicoParametro ? this.parametro : gerarQuery());
+				writer.flush();
+				writer.close();
+				os.close();
+				
 			}
 
 			cookieStore = cookieManager.getCookieStore();
@@ -196,6 +230,67 @@ public class RequisicaoHttp {
 	 */
 	public String valorCookie(String nomeCookie) {
 		return getEnderecoDestino().getCookie(nomeCookie).getValue();
+	}
+	
+	
+	/**
+	 * Altera o metodo de Requisicao HTTP para POST. 
+	 * Por padrao o metodo e GET
+	 */
+	public void realizarPOST() {
+		
+		this.metodo = "POST";
+		
+	}
+	
+	/**
+	 * Adiciona um unico parametro para serem enviado no corpo da Requisicao pelo metodo POST
+	 * 
+	 * @param valor  valor do parametro
+	 */
+	public void adicionarParametroPOST(String valor) {
+		
+		this.unicoParametro = true;
+		this.parametro = valor;
+		
+	}
+	
+	/**
+	 * Adiciona parametros para serem enviados pelo metodo POST
+	 * 
+	 * @param nome  nome do parametro
+	 * @param valor  valor do parametro
+	 */
+	public void adicionarParametroPOST(String nome, String valor) {
+		
+		this.parametros.add(new BasicNameValuePair(nome,valor));
+		
+	}
+	
+	
+	/**
+	 * Formata os parametros POST para serem adicionados na Requisicao HTTP 
+	 * 
+	 * @param parametros  Lista de parametros POST
+	 */
+	private String gerarQuery() throws UnsupportedEncodingException
+	{
+	    StringBuilder result = new StringBuilder();
+	    boolean first = true;
+
+	    for (NameValuePair pair : parametros)
+	    {
+	        if (first)
+	            first = false;
+	        else
+	            result.append("&");
+
+	        result.append(URLEncoder.encode(pair.getName(), "UTF-8"));
+	        result.append("=");
+	        result.append(URLEncoder.encode(pair.getValue(), "UTF-8"));
+	    }
+
+	    return result.toString();
 	}
 
 }
