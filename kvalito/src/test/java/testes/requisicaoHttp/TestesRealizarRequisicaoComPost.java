@@ -38,8 +38,6 @@ public class TestesRealizarRequisicaoComPost {
 		
 		requisicao.executar();
 		
-		System.out.println(requisicao.corpoResposta());
-		
 		assertEquals(resultadoEsperado,requisicao.status());
 	}
 	
