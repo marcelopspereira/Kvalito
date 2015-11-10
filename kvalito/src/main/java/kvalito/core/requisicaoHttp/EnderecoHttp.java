@@ -2,9 +2,11 @@ package kvalito.core.requisicaoHttp;
 
 import java.net.HttpCookie;
 import java.util.List;
+import java.util.Map;
 
 public class EnderecoHttp {
 
+	private Map<String,List<String>> headerFields;
 	private String url;
 	private String body;
 	private int httpStatusCode;
@@ -37,12 +39,14 @@ public class EnderecoHttp {
 	 * @param httpStatusCode Status Code do Endereço Http Ex.: 200, 404, 500
 	 * @param cookies lista de HttpCookies do endereço Http
 	 * @param body conteudo do endereço Http
+	 * @param headerFields TODO
 	 */
-	public EnderecoHttp(String url, int httpStatusCode, List<HttpCookie> cookies, String body) {
+	public EnderecoHttp(String url, int httpStatusCode, List<HttpCookie> cookies, String body, Map<String, List<String>> headerFields) {
 		this.url = url;
 		this.httpStatusCode = httpStatusCode;
 		this.cookies = cookies;
 		this.body = body;
+		this.headerFields = headerFields;
 	}
 
 	public String getBody() {
@@ -77,6 +81,10 @@ public class EnderecoHttp {
 
 	public String getUrl() {
 		return url;
+	}
+	
+	public Map<String,List<String>> getHeaderFields() {
+		return this.headerFields;
 	}
 
 	public void setBody(String body) {

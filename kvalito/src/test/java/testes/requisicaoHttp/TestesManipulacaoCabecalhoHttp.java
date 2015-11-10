@@ -68,5 +68,19 @@ public class TestesManipulacaoCabecalhoHttp {
 				.getEnderecoDestino().getBody().contains(resultadoEsperado));
 		
 	}
+	
+	@Test
+	public void consultarInformacoesDoCabecalhoHttp() throws Exception {
+
+		String url = Configuracoes
+				.getConfiguracaoPagina("pagina-app-web-qatestengine");
+
+		RequisicaoHttp requisicao = new RequisicaoHttp(url);
+		
+		requisicao.executar();
+
+		assertTrue(requisicao.getEnderecoDestino().getHeaderFields().toString().contains("Content-Type=[text/html]"));
+		
+	}
 
 }
