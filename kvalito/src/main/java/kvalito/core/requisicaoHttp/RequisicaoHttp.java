@@ -241,8 +241,16 @@ public class RequisicaoHttp {
 	}
 
 	/**
+	 * 
 	 * Altera o metodo de Requisicao HTTP para POST. Por padrao o metodo e GET
+	 * 
+	 * @deprecated  Um novo método foi adicionado para tornar mais flexivel a manipulação de metodos HTTP. </br>
+	 *              {será removido na proxima versão} </br>
+	 *              utilize {@link #utilizarMetodo(String metodo)} com um dos métodos HTTP desejados abaixo: </br>
+	 *              HEAD,GET,POST,PUT,PATCH,DELETE,TRACE,OPTIONS,CONNECT
+	 * 
 	 */
+	@Deprecated
 	public void realizarPOST() {
 
 		this.metodo = "POST";
@@ -261,6 +269,30 @@ public class RequisicaoHttp {
 		this.unicoParametro = true;
 		this.parametro = valor;
 
+	}
+	
+	/**
+	 * Retorna o tipo do metodo utilizado (HEAD,GET,POST,PUT,PATCH,DELETE,TRACE,OPTIONS,CONNECT).
+	 * 
+	 * @param valor
+	 *            valor do parametro
+	 */
+	public String metodo() {
+		
+		return this.metodo;
+		
+	}
+	
+	/**
+	 * Modifica o tipo do metodo (HEAD,GET,POST,PUT,DELETE,TRACE,OPTIONS,CONNECT).
+	 * 
+	 * @param valor
+	 *            valor do parametro
+	 */
+	public void utilizarMetodo(String metodo) {
+		
+		this.metodo = metodo;
+		
 	}
 
 	/**

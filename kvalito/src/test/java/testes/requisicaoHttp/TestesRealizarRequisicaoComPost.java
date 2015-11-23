@@ -14,7 +14,7 @@ public class TestesRealizarRequisicaoComPost {
 		int resultadoEsperado = 200;
 		
 		RequisicaoHttp requisicao = new RequisicaoHttp(url);
-		requisicao.realizarPOST();
+		requisicao.utilizarMetodo("POST");
 		
 		requisicao.adicionarCabecalhoHttp("Content-Type", "application/json");
 		requisicao.adicionarParametroPOST("teste", "valor teste");
@@ -31,7 +31,7 @@ public class TestesRealizarRequisicaoComPost {
 		int resultadoEsperado = 200;
 		
 		RequisicaoHttp requisicao = new RequisicaoHttp(url);
-		requisicao.realizarPOST();
+		requisicao.utilizarMetodo("POST");
 		
 		requisicao.adicionarCabecalhoHttp("Content-Type", "application/json");
 		requisicao.adicionarParametroPOST("{\"vote\": {\"value\": false,\"objectId\": \"3\",\"userId\": \"leandro\"}}");
