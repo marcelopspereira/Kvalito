@@ -15,7 +15,10 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 public class FabricaChromeDriver {
 
 	public static WebDriver instanciar() throws Exception {
-		String diretorioChromeDriver = Configuracoes.getConfiguracaoPrincipal("diretorio-chrome-driver");
+		String diretorioChromeDriver = System.getProperty("diretorio-chrome-driver");
+		if (diretorioChromeDriver == null || diretorioChromeDriver.isEmpty()) {
+			diretorioChromeDriver = Configuracoes.getConfiguracaoPrincipal("diretorio-chrome-driver");
+		}
 		Log.registrarInformacao(String.format("Diretório do ChromeDriver [%s]",diretorioChromeDriver));
 		System.setProperty("webdriver.chrome.driver",diretorioChromeDriver);
 		ChromeDriver driverTemporario = new ChromeDriver(recursosEspecificos());

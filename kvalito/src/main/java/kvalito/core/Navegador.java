@@ -3,9 +3,7 @@ package kvalito.core;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,7 +34,7 @@ public class Navegador {
 
 	private static WebDriver driver;
 	private static NavegadorUtilizado navegadorUtilizado;
-	private static int maximoTentativasTratarElementoVelho;
+//	private static int maximoTentativasTratarElementoVelho;
 	private static String idJanelaPrincipal;
 
 	public static void abrirUrl(String url) throws Exception {
